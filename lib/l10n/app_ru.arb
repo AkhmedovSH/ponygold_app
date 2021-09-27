@@ -1,0 +1,14 @@
+{
+  "recommended": "Рекомендованное",
+	"categories": "Категории",
+	"specify_city_or_region_to_find_out_the_availability_of_goods_in_your_region": "Укажите город или область, чтобы узнать наличие товара в вашем регионе",
+	"basket": "Корзина",
+	"in_stock": "В наличии",
+	"not_in_your_area": "Нет в вашем регионе",
+	"no_products": "НЕТ ПРОДУКТОВ",
+	"proceed": "Продолжить",
+	"filter": "Фильтр",
+	"price": "Цена",
+	"from": "ОТ",
+	"to": "ДО"
+}

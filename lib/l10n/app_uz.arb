@@ -1,0 +1,15 @@
+{
+  "recommended": "Tavsiya etiladi",
+	"categories": "Kategoriyalar",
+	"specify_city_or_region_to_find_out_the_availability_of_goods_in_your_region": "Hududingizda tovarlarning mavjudligini bilish uchun shahar yoki mintaqani ko'rsating",
+	"basket": "Savat",
+	"in_stock": "Omborda mavjud",
+	"not_in_your_area": "Sizning hududingizda emas",
+	"no_products": "MAHSULOTLAR YO'Q",
+	"proceed": "Davom eting",
+	"filter": "Filtrlash",
+	"price": "Narx",
+	"from": "QANDAY",
+	"from": "ОТ",
+	"to": "ДО"
+}
