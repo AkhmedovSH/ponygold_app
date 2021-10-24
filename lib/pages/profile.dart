@@ -44,6 +44,14 @@ class _ProfileState extends State<Profile> {
     });
   }
 
+  signOut() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('access_token');
+    prefs.remove('user');
+    prefs.remove('password');
+    Get.offAllNamed("/login");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -204,18 +212,24 @@ class _ProfileState extends State<Profile> {
                               height: 60,
                               padding: EdgeInsets.only(
                                   top: 15, left: 15, bottom: 15),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.logout_rounded,
-                                    color: Color(0xFFEB6465),
-                                  ),
-                                  Text(
-                                    'Выйти из аккаунта',
-                                    style: TextStyle(
-                                        fontSize: 18, color: Color(0xFFEB6465)),
-                                  ),
-                                ],
+                              child: GestureDetector(
+                                onTap: () {
+                                  signOut();
+                                },
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.logout_rounded,
+                                      color: Color(0xFFEB6465),
+                                    ),
+                                    Text(
+                                      'Выйти из аккаунта',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color: Color(0xFFEB6465)),
+                                    ),
+                                  ],
+                                ),
                               )),
                         ],
                       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Intro extends StatefulWidget {
   Intro({Key? key}) : super(key: key);
@@ -45,13 +46,19 @@ class _IntroState extends State<Intro> {
     return Material(
       type: MaterialType.transparency,
       child: Container(
-        color: Colors.blue[500],
+        color: Color(0xFF00B4AA),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Image(image: AssetImage('images/logo.png')),
+              SvgPicture.asset(
+                'images/logo.svg',
+                color: Colors.white,
+                width: 70,
+                height: 70,
+              ),
+              // Image(image: AssetImage('images/logo.png')),
             ])
           ],
         ),

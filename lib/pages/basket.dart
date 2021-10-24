@@ -58,6 +58,7 @@ class _BasketState extends State<Basket> {
       _cardInfo.add(stringList[i] as String);
     }
     prefs.setStringList('basket', _cardInfo);
+    globals.checkLength(1);
   }
 
   increment(i) async {
@@ -184,7 +185,7 @@ class _BasketState extends State<Basket> {
                                         children: [
                                           Container(
                                             child: Text(
-                                              basket[i]['name'],
+                                              basket[i]['name_uz'],
                                               style: basket[i]['available'] ==
                                                       '1'
                                                   ? TextStyle(
@@ -332,7 +333,8 @@ class _BasketState extends State<Basket> {
                                   ],
                                 ))
                           ],
-                        )
+                        ),
+                      Padding(padding: EdgeInsets.only(top: 60))
                     ],
                   )
                 ],

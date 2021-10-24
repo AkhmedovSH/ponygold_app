@@ -160,7 +160,7 @@ class _SearchState extends State<Search> {
                                           Container(
                                             margin: EdgeInsets.only(),
                                             child: Text(
-                                              products[i]['name'],
+                                              products[i]['name_uz'],
                                               style: TextStyle(
                                                   fontSize: 20,
                                                   color: Color(0xFF747474)),

@@ -2,14 +2,16 @@ library PonyGold.globals;
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:PonyGold/pages/orders.dart';
 import 'package:simple_moment/simple_moment.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:PonyGold/pages/profile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:io';
 
 String otp = '';
 String phone = '';
+String lang = 'ru';
 bool loading = false;
 double latitude = 0.0;
 double longitude = 0.0;
@@ -124,8 +126,8 @@ showToast(context, error) {
       duration: Duration(milliseconds: 5000),
       width: 300, // Width of the SnackBar.
       padding: EdgeInsets.symmetric(
-        horizontal: 8.0, // Inner padding for SnackBar content.
-      ),
+          horizontal: 8.0, // Inner padding for SnackBar content.
+          vertical: 8.0),
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5.0),
@@ -138,12 +140,31 @@ int active = 0;
 
 onItemTab(int index) {
   active = index;
+  switch (index) {
+    case 0:
+      Get.offAllNamed("/");
+      break;
+    // case 1:
+    //   Get.offAllNamed("/search");
+    //   break;
+    case 1:
+      Get.offAllNamed(
+        "/basket",
+      );
+      break;
+    case 2:
+      Get.offAllNamed("/orders");
+      break;
+    case 3:
+      Get.offAllNamed("/profile");
+      break;
+  }
   bottomBar = BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       showSelectedLabels: false,
       currentIndex: active,
       showUnselectedLabels: false,
-      // selectedItemColor: Color(0xFF5986E2),
+      // selectedItemColor: Colors.red,
       // unselectedItemColor: Colors.black,
       onTap: onItemTab,
       items: [
@@ -153,41 +174,50 @@ onItemTab(int index) {
           label: '',
         ),
         BottomNavigationBarItem(
-            icon: Icon(Icons.manage_search,
-                color: active == 1 ? Color(0xFF5986E2) : Color(0xFF828282)),
+            icon: Stack(children: [
+              Icon(Icons.shopping_cart_outlined,
+                  color: active == 1 ? Color(0xFF5986E2) : Color(0xFF828282)),
+              basketlength
+                  ? circle
+                  : Positioned(
+                      top: 0,
+                      right: 0,
+                      child: Container(
+                        height: 10,
+                        width: 10,
+                        decoration: new BoxDecoration(
+                          color: Colors.white.withOpacity(0),
+                          shape: BoxShape.circle,
+                        ),
+                      ))
+            ]),
             label: ''),
         BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart_outlined,
-                color: active == 2 ? Color(0xFF5986E2) : Color(0xFF828282)),
-            label: ''),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_bag_outlined,
-                color: active == 3 ? Color(0xFF5986E2) : Color(0xFF828282)),
+            icon: Stack(
+              children: [
+                Icon(Icons.shopping_bag_outlined,
+                    color: active == 2 ? Color(0xFF5986E2) : Color(0xFF828282)),
+                ordersLength
+                    ? circle
+                    : Positioned(
+                        top: 0,
+                        right: 0,
+                        child: Container(
+                          height: 10,
+                          width: 10,
+                          decoration: new BoxDecoration(
+                            color: Colors.white.withOpacity(0),
+                            shape: BoxShape.circle,
+                          ),
+                        ))
+              ],
+            ),
             label: ''),
         BottomNavigationBarItem(
             icon: Icon(Icons.person,
-                color: active == 4 ? Color(0xFF5986E2) : Color(0xFF828282)),
+                color: active == 3 ? Color(0xFF5986E2) : Color(0xFF828282)),
             label: ''),
       ]);
-  switch (index) {
-    case 0:
-      Get.offAllNamed("/");
-      break;
-    case 1:
-      Get.toNamed("/orders");
-      break;
-    case 2:
-      Get.toNamed(
-        "/basket",
-      );
-      break;
-    case 3:
-      Get.toNamed("/orders");
-      break;
-    case 4:
-      Get.toNamed("/profile");
-      break;
-  }
 }
 
 Widget bottomBar = BottomNavigationBar(
@@ -205,20 +235,48 @@ Widget bottomBar = BottomNavigationBar(
         label: '',
       ),
       BottomNavigationBarItem(
-          icon: Icon(Icons.manage_search,
-              color: active == 1 ? Color(0xFF5986E2) : Color(0xFF828282)),
+          icon: Stack(children: [
+            Icon(Icons.shopping_cart_outlined,
+                color: active == 1 ? Color(0xFF5986E2) : Color(0xFF828282)),
+            basketlength
+                ? circle
+                : Positioned(
+                    top: 0,
+                    right: 0,
+                    child: Container(
+                      height: 10,
+                      width: 10,
+                      decoration: new BoxDecoration(
+                        color: Colors.white.withOpacity(0),
+                        shape: BoxShape.circle,
+                      ),
+                    ))
+          ]),
           label: ''),
       BottomNavigationBarItem(
-          icon: Icon(Icons.shopping_cart_outlined,
-              color: active == 2 ? Color(0xFF5986E2) : Color(0xFF828282)),
-          label: ''),
-      BottomNavigationBarItem(
-          icon: Icon(Icons.shopping_bag_outlined,
-              color: active == 3 ? Color(0xFF5986E2) : Color(0xFF828282)),
+          icon: Stack(
+            children: [
+              Icon(Icons.shopping_bag_outlined,
+                  color: active == 2 ? Color(0xFF5986E2) : Color(0xFF828282)),
+              ordersLength
+                  ? circle
+                  : Positioned(
+                      top: 0,
+                      right: 0,
+                      child: Container(
+                        height: 10,
+                        width: 10,
+                        decoration: new BoxDecoration(
+                          color: Colors.white.withOpacity(0),
+                          shape: BoxShape.circle,
+                        ),
+                      ))
+            ],
+          ),
           label: ''),
       BottomNavigationBarItem(
           icon: Icon(Icons.person,
-              color: active == 4 ? Color(0xFF5986E2) : Color(0xFF828282)),
+              color: active == 3 ? Color(0xFF5986E2) : Color(0xFF828282)),
           label: ''),
     ]);
 
@@ -234,4 +292,101 @@ formatPhone(phone) {
   var d = phone.substring(8, 10);
   var q = phone.substring(10, 12);
   return '+' + x + ' ' + y + ' ' + z + ' ' + d + ' ' + q;
+}
+
+Widget circle = Positioned(
+    top: 0,
+    right: 0,
+    child: Container(
+      height: 10,
+      width: 10,
+      decoration: new BoxDecoration(
+        color: Color(0xFFEB6465),
+        shape: BoxShape.circle,
+      ),
+    ));
+
+bool basketlength = false;
+bool ordersLength = false;
+
+checkLength(check) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  if (check == 1 || check == 3) {
+    dynamic basket = prefs.getStringList('basket');
+    basketlength = basket.length > 0;
+  }
+  if (check == 2 || check == 3) {
+    dynamic token = prefs.getString('access_token');
+    final response = await http.get(
+      Uri.parse('https://ponygold.uz/api/client/user-orders'),
+      headers: {
+        // HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+        'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      },
+    );
+    final responseJson = await jsonDecode(response.body);
+    ordersLength = responseJson['data'].length > 0;
+  }
+  bottomBar = BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      showSelectedLabels: false,
+      currentIndex: active,
+      showUnselectedLabels: false,
+      onTap: onItemTab,
+      items: [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home,
+              color: active == 0 ? Color(0xFF5986E2) : Color(0xFF828282)),
+          label: '',
+        ),
+        // BottomNavigationBarItem(
+        //     icon: Icon(Icons.manage_search,
+        //         color: active == 1 ? Color(0xFF5986E2) : Color(0xFF828282)),
+        //     label: ''),
+        BottomNavigationBarItem(
+            icon: Stack(children: [
+              Icon(Icons.shopping_cart_outlined,
+                  color: active == 1 ? Color(0xFF5986E2) : Color(0xFF828282)),
+              basketlength
+                  ? circle
+                  : Positioned(
+                      top: 0,
+                      right: 0,
+                      child: Container(
+                        height: 10,
+                        width: 10,
+                        decoration: new BoxDecoration(
+                          color: Colors.white.withOpacity(0),
+                          shape: BoxShape.circle,
+                        ),
+                      ))
+            ]),
+            label: ''),
+        BottomNavigationBarItem(
+            icon: Stack(
+              children: [
+                Icon(Icons.shopping_bag_outlined,
+                    color: active == 2 ? Color(0xFF5986E2) : Color(0xFF828282)),
+                ordersLength
+                    ? circle
+                    : Positioned(
+                        top: 0,
+                        right: 0,
+                        child: Container(
+                          height: 10,
+                          width: 10,
+                          decoration: new BoxDecoration(
+                            color: Colors.white.withOpacity(0),
+                            shape: BoxShape.circle,
+                          ),
+                        ))
+              ],
+            ),
+            label: ''),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.person,
+                color: active == 3 ? Color(0xFF5986E2) : Color(0xFF828282)),
+            label: ''),
+      ]);
 }

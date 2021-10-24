@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:PonyGold/globals.dart' as globals;
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class Login extends StatefulWidget {
   Login({Key? key}) : super(key: key);
@@ -18,6 +19,8 @@ class _LoginState extends State<Login> {
   dynamic password = '';
   final _formKey = GlobalKey<FormState>();
   final _formKey2 = GlobalKey<FormState>();
+  var maskFormatter = new MaskTextInputFormatter(
+      mask: '+### (##) ### ## ##', filter: {"#": RegExp(r'[0-9]')});
 
   void login(context) async {
     final response = await http.post(
@@ -26,12 +29,14 @@ class _LoginState extends State<Login> {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(
-          <String, String>{'phone': '998' + phone, 'password': password}),
+          <String, String>{'phone': maskFormatter.getUnmaskedText(), 'password': password}),
     );
     final responseJson = jsonDecode(response.body);
     if (response.statusCode == 200) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('access_token', responseJson['access_token']);
+      prefs.setString('user', jsonEncode(responseJson['user']));
+      prefs.setString('password', password.toString());
       Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
     }
     if (response.statusCode == 400) {
@@ -64,7 +69,8 @@ class _LoginState extends State<Login> {
                         margin: EdgeInsets.only(top: 20),
                         child: TextFormField(
                           inputFormatters: [
-                            LengthLimitingTextInputFormatter(9),
+                            LengthLimitingTextInputFormatter(19),
+                            maskFormatter
                           ],
                           keyboardType: TextInputType.number,
                           validator: (value) {
@@ -78,15 +84,16 @@ class _LoginState extends State<Login> {
                           },
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            prefixIcon: Padding(
-                              padding: EdgeInsets.only(left: 10, bottom: 2),
-                              child: Text(
-                                "+998",
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ),
-                            prefixIconConstraints:
-                                BoxConstraints(minWidth: 0, minHeight: 0),
+                            hintText: '+998 (99) 999 99 99',
+                            // prefixIcon: Padding(
+                            //   padding: EdgeInsets.only(left: 10, bottom: 2),
+                            //   child: Text(
+                            //     "+998",
+                            //     style: TextStyle(fontSize: 16),
+                            //   ),
+                            // ),
+                            // prefixIconConstraints:
+                            //     BoxConstraints(minWidth: 0, minHeight: 0),
                           ),
                           onChanged: (value) {
                             setState(() {

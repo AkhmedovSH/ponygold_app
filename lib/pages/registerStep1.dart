@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:PonyGold/globals.dart' as globals;
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class RegisterStep1 extends StatefulWidget {
   RegisterStep1({Key? key}) : super(key: key);
@@ -17,6 +18,8 @@ class _RegisterStep1State extends State<RegisterStep1> {
   String phone = '';
   final _formKey = GlobalKey<FormState>();
   final _formKey2 = GlobalKey<FormState>();
+  var maskFormatter = new MaskTextInputFormatter(
+      mask: '+### (##) ### ## ##', filter: {"#": RegExp(r'[0-9]')});
 
   void register(context) async {
     final response = await http.post(
@@ -24,7 +27,10 @@ class _RegisterStep1State extends State<RegisterStep1> {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{'name': name, 'phone': '998' + phone}),
+      body: jsonEncode(<String, String>{
+        'name': name,
+        'phone': maskFormatter.getUnmaskedText()
+      }),
     );
     final responseJson = jsonDecode(response.body);
     if (response.statusCode == 200) {
@@ -86,7 +92,8 @@ class _RegisterStep1State extends State<RegisterStep1> {
                         margin: EdgeInsets.only(top: 20),
                         child: TextFormField(
                           inputFormatters: [
-                            LengthLimitingTextInputFormatter(9),
+                            LengthLimitingTextInputFormatter(19),
+                            maskFormatter
                           ],
                           keyboardType: TextInputType.number,
                           validator: (value) {
@@ -105,7 +112,7 @@ class _RegisterStep1State extends State<RegisterStep1> {
                             prefixIcon: Padding(
                               padding: EdgeInsets.only(left: 10, bottom: 2),
                               child: Text(
-                                "+998",
+                                "+998 (99) 999 99 99",
                                 style: TextStyle(fontSize: 16),
                               ),
                             ),

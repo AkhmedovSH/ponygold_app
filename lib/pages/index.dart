@@ -31,6 +31,8 @@ class _IndexState extends State<Index> {
 
   @override
   void initState() {
+    globals.active = 0;
+    globals.checkLength(3);
     scrollController.addListener(scrollListener);
     setState(() {
       loading = true;
@@ -195,7 +197,7 @@ class _IndexState extends State<Index> {
                                     ),
                                     Padding(padding: EdgeInsets.only(top: 10)),
                                     Text(
-                                      categories[i]['name'],
+                                      categories[i]['name_ru'],
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700),
                                     )
@@ -219,10 +221,8 @@ class _IndexState extends State<Index> {
                       items: [
                         for (var i = 0; i < categories.length; i++)
                           Container(
-                            child: Image.asset(
-                              'images/banner.png',
-                              width: double.infinity,
-                            ),
+                            child: Image.asset('images/banner.png',
+                                width: double.infinity, fit: BoxFit.fill),
                           )
                       ],
                       options: new CarouselOptions(
@@ -267,14 +267,15 @@ class _IndexState extends State<Index> {
                             color: Color(0xFF5986E2),
                           ),
                         )
-                      : Wrap(
-                          // scrollDirection: Axis.vertical,
-                          // shrinkWrap: true,
-                          // primary: false,
-                          // padding: const EdgeInsets.all(10),
-                          // crossAxisSpacing: 10,
-                          // mainAxisSpacing: 10,
-                          // crossAxisCount: 2,
+                      : GridView.count(
+                          childAspectRatio: 0.78,
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          primary: false,
+                          padding: const EdgeInsets.all(10),
+                          crossAxisSpacing: 8,
+                          mainAxisSpacing: 8,
+                          crossAxisCount: 2,
                           children: [
                             for (int i = 0; i < products.length; i++)
                               GestureDetector(
@@ -282,14 +283,17 @@ class _IndexState extends State<Index> {
                                   Get.toNamed('/detail',
                                       arguments: products[i]['id']);
                                 },
-                                child: new Container(
-                                  width: width == 392.72727272727275
-                                      ? 190
-                                      : width == 411.42857142857144
-                                          ? 200
-                                          : 190,
-                                  margin: EdgeInsets.fromLTRB(
-                                      0, 10, i % 2 == 0 ? 10 : 0, 10),
+                                child: Container(
+                                  // height: double.infinity,
+                                  // height:
+                                  //     MediaQuery.of(context).size.height * 0.70,
+                                  // width: width == 392.72727272727275
+                                  //     ? 190
+                                  //     : width == 411.42857142857144
+                                  //         ? 200
+                                  //         : 190,
+                                  // margin: EdgeInsets.fromLTRB(
+                                  //     0, 10, i % 2 == 0 ? 10 : 0, 10),
                                   decoration: const BoxDecoration(
                                     color: Colors.white,
                                     border: Border(
@@ -305,55 +309,62 @@ class _IndexState extends State<Index> {
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(5.0)),
                                   ),
-                                  height: 230,
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Stack(
                                         children: [
-                                          Container(
+                                          Padding(
+                                            padding: EdgeInsets.all(5),
                                             child: Image.network(
-                                              'https://ponygold.uz/uploads/products/' +
-                                                  products[i]['image'],
-                                            ),
+                                                'https://ponygold.uz/uploads/products/' +
+                                                    products[i]['image'],
+                                                height: 140,
+                                                width: double.infinity,
+                                                fit: BoxFit.fill),
                                           ),
-                                          Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.zero,
-                                                  topRight:
-                                                      Radius.circular(5.0),
-                                                  bottomLeft: Radius.zero,
-                                                  bottomRight:
-                                                      Radius.circular(5.0),
-                                                ),
-                                                border: Border.all(
-                                                  width: 1,
-                                                  color: Color(0xFFEB6465),
-                                                  style: BorderStyle.solid,
-                                                ),
-                                                color: Color(0xFFEB6465),
-                                              ),
-                                              margin: EdgeInsets.only(top: 10),
-                                              padding: EdgeInsets.fromLTRB(
-                                                  5, 3, 5, 3),
-                                              child: Text(
-                                                '-' +
-                                                    products[i]['discount']
-                                                        .toString() +
-                                                    '%',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                ),
-                                              )),
+                                          int.parse(products[i]['discount']) !=
+                                                  0
+                                              ? Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                      topLeft: Radius.zero,
+                                                      topRight:
+                                                          Radius.circular(5.0),
+                                                      bottomLeft: Radius.zero,
+                                                      bottomRight:
+                                                          Radius.circular(5.0),
+                                                    ),
+                                                    border: Border.all(
+                                                      width: 1,
+                                                      color: Color(0xFFEB6465),
+                                                      style: BorderStyle.solid,
+                                                    ),
+                                                    color: Color(0xFFEB6465),
+                                                  ),
+                                                  margin:
+                                                      EdgeInsets.only(top: 10),
+                                                  padding: EdgeInsets.fromLTRB(
+                                                      5, 3, 5, 3),
+                                                  child: Text(
+                                                    '-' +
+                                                        products[i]['discount']
+                                                            .toString() +
+                                                        '%',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                    ),
+                                                  ))
+                                              : Container(),
                                         ],
                                       ),
                                       Container(
                                         padding: EdgeInsets.only(left: 8),
                                         margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
                                         child: Text(
-                                          products[i]['name'],
+                                          products[i]['name_uz'],
                                           style: TextStyle(
                                               fontFamily: 'ProDisplay',
                                               fontSize: 14,
@@ -387,20 +398,22 @@ class _IndexState extends State<Index> {
                                               fontWeight: FontWeight.bold),
                                         ),
                                       ),
-                                      Container(
-                                        padding: EdgeInsets.only(left: 8),
-                                        child: Text(
-                                          globals
-                                              .formatNumber(
-                                                  products[i]['price'])
-                                              .toString(),
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: Color(0xFF747474),
-                                              decoration:
-                                                  TextDecoration.lineThrough),
-                                        ),
-                                      ),
+                                      int.parse(products[i]['discount']) != 0
+                                          ? Container(
+                                              padding: EdgeInsets.only(left: 8),
+                                              child: Text(
+                                                globals
+                                                    .formatNumber(
+                                                        products[i]['price'])
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: Color(0xFF747474),
+                                                    decoration: TextDecoration
+                                                        .lineThrough),
+                                              ),
+                                            )
+                                          : Container(),
                                     ],
                                   ),
                                 ),
@@ -439,7 +452,7 @@ class _IndexState extends State<Index> {
 
 //   @override
 //   Widget buildResults(BuildContext context) {
-//     // TODO: implement buildResults 
+//     // TODO: implement buildResults
 //     throw UnimplementedError();
 //   }
 

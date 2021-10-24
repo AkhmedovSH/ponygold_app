@@ -60,6 +60,20 @@ class _DetailState extends State<Detail> {
         basket = prefsBasket;
       });
       bool found = false;
+      // print(basket[0]['category']['main_id'] !=
+      //     responseBody['category']['main_id']);
+      if (basket.length > 0) {
+        var basketDecode = jsonDecode(basket[0]);
+        if (basketDecode['category']['main_id'] !=
+            product['category']['main_id']) {
+          return Get.snackbar('Ошибка', 'Выберите другой продукт',
+              onTap: (_) => print('DADA'),
+              duration: Duration(seconds: 2),
+              animationDuration: Duration(milliseconds: 600),
+              snackPosition: SnackPosition.TOP,
+              backgroundColor: Color(0xFFEB6465));
+        }
+      }
       for (var i = 0; i < basket.length; i++) {
         var basketDecode = jsonDecode(basket[i]);
         if (basketDecode['id'] == responseJson['id']) {
@@ -84,12 +98,13 @@ class _DetailState extends State<Detail> {
       }
       prefs.setStringList('basket', basket);
     }
+    globals.checkLength(1);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
+      // extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Color(0xFF5986E2),
         elevation: 0.0,
@@ -103,24 +118,38 @@ class _DetailState extends State<Detail> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(padding: EdgeInsets.only(top: 80)),
+                  // Padding(padding: EdgeInsets.only(top: 120)),
+                  // Container(
+                  //   width: MediaQuery.of(context).size.width,
+                  //   height: 300,
+                  //   decoration: BoxDecoration(
+                  //     image: DecorationImage(
+                  //       fit: BoxFit.fill,
+                  //       scale: 1,
+                  //       image: NetworkImage(
+                  //         'https://ponygold.uz/uploads/products/' +
+                  //             product['image'],
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 300,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: NetworkImage(
-                            'https://ponygold.uz/uploads/products/' +
-                                product['image']),
+                      decoration: new BoxDecoration(
+                        color: Colors.white,
                       ),
-                    ),
-                  ),
+                      height: 300,
+                      child: Center(
+                        child: Image.network(
+                            'https://ponygold.uz/uploads/products/' +
+                                product['image'],
+                            // width: double.infinity,
+                            fit: BoxFit.fill),
+                      )),
                   Container(
                     margin: EdgeInsets.only(top: 40),
                     padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
                     child: Text(
-                      product['name'],
+                      product['name_uz'],
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -131,7 +160,7 @@ class _DetailState extends State<Detail> {
                   Container(
                     padding: EdgeInsets.fromLTRB(16, 5, 16, 0),
                     child: Text(
-                      'Арткул:' + ' ' + product['vendor_code'].toString(),
+                      'Арткул:' + ' ' + product['id'].toString(),
                       style: TextStyle(fontSize: 14, color: Color(0xFF9F9B9B)),
                     ),
                   ),
@@ -168,7 +197,7 @@ class _DetailState extends State<Detail> {
                     margin: EdgeInsets.only(bottom: 50),
                     padding: EdgeInsets.fromLTRB(16, 5, 16, 0),
                     child: Text(
-                      product['description'],
+                      product['description_uz'],
                       style: TextStyle(
                           fontSize: 18,
                           color: Color(0xFF747474),

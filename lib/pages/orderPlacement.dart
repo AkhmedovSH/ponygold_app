@@ -20,6 +20,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
   dynamic plasticCard = false;
   dynamic payme = false;
   dynamic cash = false;
+  dynamic ponyGold = false;
   dynamic totalAmount = 0;
   dynamic basket = [];
   String address = '';
@@ -367,11 +368,11 @@ class _OrderPlacementState extends State<OrderPlacement> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5.0),
                                 ),
-                                value: payme,
+                                value: ponyGold,
                                 onChanged: (value) {
                                   setState(() {
                                     cash = false;
-                                    payme = value;
+                                    ponyGold = value;
                                     plasticCard = false;
                                   });
                                 },
@@ -418,7 +419,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
                           width: double.infinity,
                           margin: EdgeInsets.only(left: 15, bottom: 15),
                           child: Text(
-                            basket[i]['name'],
+                            basket[i]['name_uz'],
                             style: TextStyle(
                                 color: Color(0xFF313131),
                                 fontSize: 16,

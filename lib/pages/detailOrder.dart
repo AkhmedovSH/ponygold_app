@@ -79,7 +79,9 @@ class _DetailOrderState extends State<DetailOrder> {
             Container(
               margin: EdgeInsets.only(bottom: 13),
               child: Text(
-                globals.formatPhone(order['courier']['phone']),
+                order['courier_id'] != '0'
+                    ? globals.formatPhone(order['courier']['phone'])
+                    : '',
                 style: TextStyle(
                     color: Color(0xFF747474), fontWeight: FontWeight.bold),
               ),
@@ -157,7 +159,7 @@ class _DetailOrderState extends State<DetailOrder> {
                           width: double.infinity,
                           // margin: EdgeInsets.only(left: 15, bottom: 15),
                           child: Text(
-                            order['order_products'][i]['name'],
+                            order['order_products'][i]['name_uz'],
                             style: TextStyle(
                                 color: Color(0xFF313131),
                                 fontSize: 16,

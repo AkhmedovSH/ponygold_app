@@ -78,7 +78,7 @@ class _CategoriesState extends State<Categories> {
                     Container(
                       margin: EdgeInsets.all(20),
                       child: Text(
-                        categories['name'],
+                        categories['name_' + globals.lang],
                         style:
                             TextStyle(color: Color(0xFF313131), fontSize: 20),
                       ),
@@ -206,7 +206,7 @@ class _CategoriesState extends State<Categories> {
                                     padding: EdgeInsets.only(left: 8),
                                     margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
                                     child: Text(
-                                      products[i]['name'],
+                                      products[i]['name_' + globals.lang],
                                       style: TextStyle(
                                           fontFamily: 'ProDisplay',
                                           fontSize: 14,
@@ -525,8 +525,8 @@ class _FilterState extends State<Filter> {
                                                       : EdgeInsets.fromLTRB(
                                                           0, 22, 5, 20),
                                                   child: Text(
-                                                    categories['childs'][i]
-                                                        ['name'],
+                                                    categories['childs'][i][
+                                                        'name_' + globals.lang],
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
@@ -590,8 +590,9 @@ class _FilterState extends State<Filter> {
                                                               40, 0, 0, 20),
                                                       child: Text(
                                                         categories['childs'][i]
-                                                                ['childs'][j]
-                                                            ['name'],
+                                                                ['childs'][j][
+                                                            'name_' +
+                                                                globals.lang],
                                                         style: TextStyle(
                                                             fontSize: 20,
                                                             color: Color(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:PonyGold/globals.dart' as globals;
 
 class Language extends StatefulWidget {
   Language({Key? key}) : super(key: key);
@@ -13,6 +14,7 @@ class _LanguageState extends State<Language> {
   void setLanguage(String lang) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('lang', lang);
+    globals.lang = lang;
     Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
   }
 
