@@ -21,4 +21,10 @@ flutter clean
 
 flutter build apk
 
+or 
+
+flutter build appbundle
+
+
 flutter install
+

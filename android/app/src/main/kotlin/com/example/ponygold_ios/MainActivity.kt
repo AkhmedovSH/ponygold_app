@@ -1,4 +1,4 @@
-package com.example.ponygold_ios
+package com.PonyGold
 
 import io.flutter.embedding.android.FlutterActivity
 
