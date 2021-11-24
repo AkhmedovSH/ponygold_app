@@ -1,5 +1,7 @@
 library PonyGold.globals;
 
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_moment/simple_moment.dart';
@@ -8,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
+import 'package:intl/intl.dart';
 
 String otp = '';
 String phone = '';
@@ -17,65 +20,68 @@ double latitude = 0.0;
 double longitude = 0.0;
 int id = 1;
 
-formatNumber(number) {
-  if (number.length <= 3) {
-    return number;
-  }
-  if (number.length == 4) {
-    var x = number.substring(0, 1);
-    final y = number.substring(1, 4);
-    return x + ' ' + y;
-  }
-  if (number.length == 5) {
-    var x = number.substring(0, 2);
-    final y = number.substring(2, 5);
-    return x + ' ' + y;
-  }
-  if (number.length == 6) {
-    var x = number.substring(0, 3);
-    final y = number.substring(3, 6);
-    return x + ' ' + y;
-  }
-  if (number.length == 7) {
-    var x = number.substring(0, 1);
-    final y = number.substring(1, 4);
-    final z = number.substring(4, 7);
-    return x + ' ' + y + ' ' + z;
-  }
-  if (number.length == 8) {
-    var x = number.substring(0, 2);
-    final y = number.substring(2, 5);
-    final z = number.substring(5, 8);
-    return x + ' ' + y + ' ' + z;
-  }
-  if (number.length == 9) {
-    var x = number.substring(0, 3);
-    final y = number.substring(3, 6);
-    final z = number.substring(6, 9);
-    return x + ' ' + y + ' ' + z;
-  }
-  if (number.length == 10) {
-    var x = number.substring(0, 1);
-    final y = number.substring(1, 4);
-    final z = number.substring(4, 7);
-    final d = number.substring(7, 10);
-    return x + ' ' + y + ' ' + z + ' ' + d;
-  }
-  if (number.length == 11) {
-    var x = number.substring(0, 2);
-    final y = number.substring(2, 5);
-    final z = number.substring(5, 8);
-    final d = number.substring(8, 11);
-    return x + ' ' + y + ' ' + z + ' ' + d;
-  }
-  if (number.length == 12) {
-    var x = number.substring(0, 3);
-    final y = number.substring(3, 6);
-    final z = number.substring(6, 9);
-    final d = number.substring(9, 12);
-    return x + ' ' + y + ' ' + z + ' ' + d;
-  }
-  return number;
+formatMoney(price) {
+  var value = price;
+  value = value.replaceAll(RegExp(r'\D'), '');
+  value = value.replaceAll(RegExp(r'\B(?=(\d{3})+(?!\d))'), ' ');
+  return value;
+  // if (number.length <= 3) {
+  //   return number;
+  // }
+  // if (number.length == 4) {
+  //   var x = number.substring(0, 1);
+  //   final y = number.substring(1, 4);
+  //   return x + ' ' + y;
+  // }
+  // if (number.length == 5) {
+  //   var x = number.substring(0, 2);
+  //   final y = number.substring(2, 5);
+  //   return x + ' ' + y;
+  // }
+  // if (number.length == 6) {
+  //   var x = number.substring(0, 3);
+  //   final y = number.substring(3, 6);
+  //   return x + ' ' + y;
+  // }
+  // if (number.length == 7) {
+  //   var x = number.substring(0, 1);
+  //   final y = number.substring(1, 4);
+  //   final z = number.substring(4, 7);
+  //   return x + ' ' + y + ' ' + z;
+  // }
+  // if (number.length == 8) {
+  //   var x = number.substring(0, 2);
+  //   final y = number.substring(2, 5);
+  //   final z = number.substring(5, 8);
+  //   return x + ' ' + y + ' ' + z;
+  // }
+  // if (number.length == 9) {
+  //   var x = number.substring(0, 3);
+  //   final y = number.substring(3, 6);
+  //   final z = number.substring(6, 9);
+  //   return x + ' ' + y + ' ' + z;
+  // }
+  // if (number.length == 10) {
+  //   var x = number.substring(0, 1);
+  //   final y = number.substring(1, 4);
+  //   final z = number.substring(4, 7);
+  //   final d = number.substring(7, 10);
+  //   return x + ' ' + y + ' ' + z + ' ' + d;
+  // }
+  // if (number.length == 11) {
+  //   var x = number.substring(0, 2);
+  //   final y = number.substring(2, 5);
+  //   final z = number.substring(5, 8);
+  //   final d = number.substring(8, 11);
+  //   return x + ' ' + y + ' ' + z + ' ' + d;
+  // }
+  // if (number.length == 12) {
+  //   var x = number.substring(0, 3);
+  //   final y = number.substring(3, 6);
+  //   final z = number.substring(6, 9);
+  //   final d = number.substring(9, 12);
+  //   return x + ' ' + y + ' ' + z + ' ' + d;
+  // }
 }
 
 Widget button = Container(
@@ -313,7 +319,9 @@ checkLength(check) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   if (check == 1 || check == 3) {
     dynamic basket = prefs.getStringList('basket');
-    basketlength = basket.length > 0;
+    if (basket != null) {
+      basketlength = basket.length > 0;
+    }
   }
   if (check == 2 || check == 3) {
     dynamic token = prefs.getString('access_token');
@@ -325,8 +333,10 @@ checkLength(check) async {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
-    final responseJson = await jsonDecode(response.body);
-    ordersLength = responseJson['data'].length > 0;
+    if (response.statusCode == 200) {
+      final responseJson = await jsonDecode(response.body);
+      ordersLength = responseJson['data'].length > 0;
+    }
   }
   bottomBar = BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
@@ -340,10 +350,6 @@ checkLength(check) async {
               color: active == 0 ? Color(0xFF5986E2) : Color(0xFF828282)),
           label: '',
         ),
-        // BottomNavigationBarItem(
-        //     icon: Icon(Icons.manage_search,
-        //         color: active == 1 ? Color(0xFF5986E2) : Color(0xFF828282)),
-        //     label: ''),
         BottomNavigationBarItem(
             icon: Stack(children: [
               Icon(Icons.shopping_cart_outlined,
@@ -389,5 +395,110 @@ checkLength(check) async {
                 color: active == 3 ? Color(0xFF5986E2) : Color(0xFF828282)),
             label: ''),
       ]);
+  return bottomBar;
 }
 
+String baseUrl = 'https://ponygold.uz';
+
+get(url, context) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  dynamic token = prefs.getString('access_token');
+  final response = await http.get(
+    Uri.parse(baseUrl + url),
+    headers: {
+      // HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+      'Content-Type': 'application/json; charset=UTF-8',
+      HttpHeaders.authorizationHeader: 'Bearer $token',
+    },
+  );
+  // print(response);
+  statusCheck(response);
+  final responseJson = jsonDecode(response.body);
+  return responseJson;
+}
+
+post(url, payload, context) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  dynamic token = prefs.getString('access_token');
+  final response = await http.post(
+    Uri.parse(baseUrl + url),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      HttpHeaders.authorizationHeader: 'Bearer $token',
+    },
+    body: jsonEncode(payload),
+  );
+  final responseJson = jsonDecode(response.body);
+  await statusCheck(response);
+  print(response.statusCode);
+  print(response.body);
+  await statusCheck(response);
+  if (response.statusCode == 400) {
+    // showToast(context, 'Произошла ошибка');
+    Get.snackbar('Ошибка', '${responseJson['error']}', 
+        colorText: Color(0xFFFFFFFF),
+        onTap: (_) => print('DADA'),
+        duration: Duration(seconds: 2),
+        animationDuration: Duration(milliseconds: 600),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Color(0xFFEB6465));
+    return response;
+  }
+  if (response.statusCode == 200) {
+    // showToast(context, 'Успешно');
+    return jsonDecode(response.body);
+  }
+  if (response.statusCode == 401) {
+    final user = jsonDecode(prefs.getString('user').toString());
+    final password = jsonDecode(prefs.getString('password').toString());
+    print(prefs.getString('user'));
+    print(prefs.getString('password'));
+    final login = await http.post(
+      Uri.parse('https://ponygold.uz/api/auth/login'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'phone': user['phone'],
+        'password': password.toString()
+      }),
+    );
+    if (login.statusCode == 200) {
+      final responseJson = jsonDecode(login.body);
+      prefs.setString('access_token', responseJson['access_token']);
+      prefs.setString('user', jsonEncode(responseJson['user']));
+      prefs.setString('password', password.toString());
+      final response = await http.post(
+        Uri.parse(baseUrl + url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+        },
+        body: jsonEncode(payload),
+      );
+    }
+  }
+}
+
+statusCheck(response) async {
+  if (response.statusCode == 401) {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(prefs.getString('user'));
+  }
+  if (response.statusCode == 200) {
+    return 200;
+  }
+  if (response.statusCode == 400 ||
+      response.statusCode == 402 ||
+      response.statusCode == 405) {
+    Get.snackbar('Ошибка', '${response.body}',
+        colorText: Color(0xFFFFFFFF),
+        onTap: (_) => print('DADA'),
+        duration: Duration(seconds: 2),
+        animationDuration: Duration(milliseconds: 600),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Color(0xFFEB6465));
+  }
+
+  return;
+}

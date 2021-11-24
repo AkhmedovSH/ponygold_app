@@ -19,7 +19,7 @@ class OrderPlacement extends StatefulWidget {
 class _OrderPlacementState extends State<OrderPlacement> {
   dynamic plasticCard = false;
   dynamic payme = false;
-  dynamic cash = false;
+  dynamic cash = true;
   dynamic ponyGold = false;
   dynamic totalAmount = 0;
   dynamic basket = [];
@@ -46,32 +46,30 @@ class _OrderPlacementState extends State<OrderPlacement> {
     for (var i = 0; i < basket.length; i++) {
       products.add(jsonEncode(basket[i]));
     }
-    await http.post(
-      Uri.parse('https://ponygold.uz/api/client/order'),
-      headers: {
-        // HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-        'Content-Type': 'application/json; charset=UTF-8',
-        HttpHeaders.authorizationHeader: 'Bearer $token',
-      },
-      body: jsonEncode(<String, dynamic>{
-        "products": basket,
-        'address': address,
-        'latitude': globals.latitude.toString(),
-        'longitude': globals.longitude.toString(),
-        'total_amount': totalAmount,
-        'payment_type': (cash
-                ? 0
-                : plasticCard
-                    ? 1
-                    : payme
-                        ? 2
-                        : null)
-            .toString()
-      }),
-    );
-
-    prefs.remove('basket');
-    Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+    final response = await globals.post(
+        '/api/client/order',
+        <String, dynamic>{
+          "products": basket,
+          'address': address,
+          'latitude': globals.latitude.toString(),
+          'longitude': globals.longitude.toString(),
+          'total_amount': totalAmount,
+          'payment_type': (cash
+                  ? 0
+                  : plasticCard
+                      ? 1
+                      : payme
+                          ? 2
+                          : null)
+              .toString()
+        },
+        context);
+    print(response);
+    if (response.statusCode == 200) {
+      prefs.remove('basket');
+      globals.checkLength(3);
+      Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+    }
   }
 
   getProducts() async {
@@ -258,6 +256,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
                             cash = value;
                             payme = false;
                             plasticCard = false;
+                            ponyGold = false;
                           });
                         },
                       )),
@@ -268,6 +267,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
                       cash = !cash;
                       payme = false;
                       plasticCard = false;
+                      ponyGold = false;
                     });
                   },
                   child: Text('Наличными курьеру',
@@ -294,6 +294,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
                             cash = false;
                             payme = false;
                             plasticCard = value;
+                            ponyGold = false;
                           });
                         },
                       )),
@@ -304,6 +305,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
                       cash = false;
                       payme = false;
                       plasticCard = !plasticCard;
+                      ponyGold = false;
                     });
                   },
                   child: Text('Пластиковой картой курьеру',
@@ -330,6 +332,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
                             cash = false;
                             payme = value;
                             plasticCard = false;
+                            ponyGold = false;
                           });
                         },
                       )),
@@ -340,6 +343,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
                       cash = false;
                       payme = !payme;
                       plasticCard = false;
+                      ponyGold = false;
                     });
                   },
                   child: Text('Payme',
@@ -372,6 +376,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
                                 onChanged: (value) {
                                   setState(() {
                                     cash = false;
+                                    payme = false;
                                     ponyGold = value;
                                     plasticCard = false;
                                   });

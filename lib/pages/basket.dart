@@ -14,16 +14,17 @@ class Basket extends StatefulWidget {
 
 class _BasketState extends State<Basket> {
   dynamic basket = [];
+  dynamic city = {};
   dynamic stringList = [];
   @override
   void initState() {
     super.initState();
-    getProducts();
+    getData();
   }
 
-  getProducts() async {
+  getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var basketString = prefs.getStringList('basket');
+    final basketString = prefs.getStringList('basket');
     if (basketString!.length > 0) {
       for (var i = 0; i < basketString.length; i++) {
         setState(() {
@@ -32,10 +33,12 @@ class _BasketState extends State<Basket> {
         });
       }
     }
-
-    // setState(() {
-    //   basket = basketString;
-    // });
+    final cityString = jsonDecode(prefs.getString('city') as String);
+    if (cityString != null) {
+      setState(() {
+       city = cityString;
+     });
+    }
   }
 
   setBasket() async {
@@ -110,32 +113,38 @@ class _BasketState extends State<Basket> {
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                        child: Icon(
-                          Icons.location_on,
-                          color: Color(0xFF5986E2),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/cities');
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                          child: Icon(
+                            Icons.location_on,
+                            color: Color(0xFF5986E2),
+                          ),
                         ),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        ),
-                        margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                        child: Text(
-                          'Доставка в Ташкент',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 20,
-                              decoration: TextDecoration.underline),
-                        ),
-                      )
-                    ],
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.0)),
+                          ),
+                          margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                          child: Text(
+                            'Доставка в Ташкент',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 20,
+                                decoration: TextDecoration.underline),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                   Column(
                     children: [
@@ -364,7 +373,7 @@ class _BasketState extends State<Basket> {
                 ),
               ),
             )
-          : null,
+          : Container(),
       bottomNavigationBar: globals.bottomBar,
     );
   }

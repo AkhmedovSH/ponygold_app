@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:PonyGold/globals.dart' as globals;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class Index extends StatefulWidget {
@@ -77,9 +78,21 @@ class _IndexState extends State<Index> {
   getProducts() async {
     final response =
         await http.get(Uri.parse('https://ponygold.uz/api/client/products'));
-    final responseCategories = await http
-        .get(Uri.parse('https://ponygold.uz/api/client/main-categories'));
-    final responseJsonCategories = jsonDecode(responseCategories.body);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    dynamic responseCategories = categories;
+    dynamic responseJsonCategories = {};
+    if (prefs.getString('mainCategories') == null) {
+      responseCategories = await http
+          .get(Uri.parse('https://ponygold.uz/api/client/main-categories'));
+      prefs.setString('mainCategories', responseCategories.body);
+      responseJsonCategories = jsonDecode(responseCategories.body);
+    } else {
+      responseCategories = prefs.getString('mainCategories');
+      responseJsonCategories = jsonDecode(responseCategories);
+    }
+    // final responseCategories = await http
+    //     .get(Uri.parse('https://ponygold.uz/api/client/main-categories'));
+
     if (response.statusCode == 200 || responseCategories.statusCode == 200) {
       final responseJson = await jsonDecode(response.body);
       for (var i = 0; i < responseJson['data'].length; i++) {
@@ -110,29 +123,8 @@ class _IndexState extends State<Index> {
     }
   }
 
-  onItemTab(int index) {
-    switch (index) {
-      case 0:
-        Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-        break;
-      case 1:
-        Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-        break;
-      case 2:
-        Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-        break;
-      case 3:
-        Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-        break;
-      case 4:
-        Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -389,7 +381,7 @@ class _IndexState extends State<Index> {
                                         padding: EdgeInsets.only(left: 8),
                                         margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
                                         child: Text(
-                                          globals.formatNumber(products[i]
+                                          globals.formatMoney(products[i]
                                                       ['discount_price']
                                                   .toString()) +
                                               'сум.',
@@ -403,7 +395,7 @@ class _IndexState extends State<Index> {
                                               padding: EdgeInsets.only(left: 8),
                                               child: Text(
                                                 globals
-                                                    .formatNumber(
+                                                    .formatMoney(
                                                         products[i]['price'])
                                                     .toString(),
                                                 style: TextStyle(

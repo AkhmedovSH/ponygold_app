@@ -18,6 +18,7 @@ class _DetailState extends State<Detail> {
   dynamic product = {};
   dynamic responseBody = {};
   bool loading = false;
+  dynamic bottomBar = globals.bottomBar;
 
   @override
   void initState() {
@@ -37,6 +38,7 @@ class _DetailState extends State<Detail> {
           (int.parse(responseJson['price']) *
                   int.parse(responseJson['discount'])) /
               100;
+      responseJson['discount_price'] = responseJson['discount_price'].round();
       setState(() {
         responseBody = response.body;
         product = responseJson;
@@ -67,6 +69,7 @@ class _DetailState extends State<Detail> {
         if (basketDecode['category']['main_id'] !=
             product['category']['main_id']) {
           return Get.snackbar('Ошибка', 'Выберите другой продукт',
+              colorText: Color(0xFFFFFFFF),
               onTap: (_) => print('DADA'),
               duration: Duration(seconds: 2),
               animationDuration: Duration(milliseconds: 600),
@@ -99,6 +102,16 @@ class _DetailState extends State<Detail> {
       prefs.setStringList('basket', basket);
     }
     globals.checkLength(1);
+    setState(() {
+      bottomBar = globals.bottomBar;
+    });
+    return Get.snackbar('Успешно', 'Продукт добавлен в корзину',
+        colorText: Color(0xFFFFFFFF),
+        onTap: (_) => print('DADA'),
+        duration: Duration(seconds: 2),
+        animationDuration: Duration(milliseconds: 600),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Color(0xFF39B499));
   }
 
   @override
@@ -174,7 +187,10 @@ class _DetailState extends State<Detail> {
                   Container(
                     padding: EdgeInsets.fromLTRB(16, 5, 16, 0),
                     child: Text(
-                      product['discount_price'].toString() + 'сум.',
+                      globals
+                              .formatMoney(product['discount_price'].toString())
+                              .toString() +
+                          'сум.',
                       style: TextStyle(
                           fontSize: 18,
                           color: Color(0xFF5986E2),
@@ -186,7 +202,7 @@ class _DetailState extends State<Detail> {
                   Container(
                     padding: EdgeInsets.fromLTRB(16, 5, 16, 0),
                     child: Text(
-                      product['price'],
+                      globals.formatMoney(product['price']),
                       style: TextStyle(
                           fontSize: 16,
                           decoration: TextDecoration.lineThrough,
@@ -207,35 +223,34 @@ class _DetailState extends State<Detail> {
                 ],
               ),
             ),
-      floatingActionButton: Align(
-        child: Container(
-          margin: EdgeInsets.only(left: 30),
-          height: 48,
-          width: double.infinity,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: loading ? Color(0xFF747474) : Color(0xFF5986E2),
-            ),
-            onPressed: () {
-              loading ? null : inBasket(product['id']);
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(right: 8),
-                  child: Text(
-                    'Добавить в корзину',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+      floatingActionButton: loading
+          ? Container()
+          : Container(
+              margin: EdgeInsets.only(left: 30),
+              height: 48,
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Color(0xFF5986E2),
                 ),
-                Icon(Icons.shopping_cart_outlined)
-              ],
+                onPressed: () {
+                  inBasket(product['id']);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(right: 8),
+                      child: Text(
+                        'Добавить в корзину',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Icon(Icons.shopping_cart_outlined)
+                  ],
+                ),
+              ),
             ),
-          ),
-        ),
-        alignment: Alignment(1, 1.04),
-      ),
       bottomNavigationBar: globals.bottomBar,
     );
   }
