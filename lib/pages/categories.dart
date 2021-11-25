@@ -114,7 +114,6 @@ class _CategoriesState extends State<Categories> {
                               MaterialPageRoute(
                                   builder: (context) => Filter(id: id)),
                             );
-
                             if (result != null) {
                               setState(() {
                                 id = result[0];

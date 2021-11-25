@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'dart:async';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:PonyGold/globals.dart' as globals;
 
 class Search extends StatefulWidget {
   Search({Key? key}) : super(key: key);
@@ -183,7 +184,9 @@ class _SearchState extends State<Search> {
                                     margin:
                                         EdgeInsets.only(right: 15, bottom: 15),
                                     child: Text(
-                                      products[i]['price'] + ' сум.',
+                                      globals.formatMoney(
+                                              products[i]['price']) +
+                                          ' сум.',
                                       style: TextStyle(
                                           color: Colors.black, fontSize: 18),
                                     ),

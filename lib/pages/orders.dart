@@ -139,8 +139,9 @@ class _OrdersState extends State<Orders> {
                                           bottom: 4,
                                           child: Container(
                                               child: Text(
-                                            orders[i]['total_amount']
-                                                    .toString() +
+                                            globals.formatMoney(orders[i]
+                                                        ['total_amount']
+                                                    .toString()) +
                                                 ' сум',
                                             style: TextStyle(
                                                 fontSize: 16,

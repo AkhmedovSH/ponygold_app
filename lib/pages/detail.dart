@@ -105,9 +105,9 @@ class _DetailState extends State<Detail> {
     setState(() {
       bottomBar = globals.bottomBar;
     });
-    return Get.snackbar('Успешно', 'Продукт добавлен в корзину',
+    Get.snackbar('Успешно', 'Продукт добавлен в корзину',
         colorText: Color(0xFFFFFFFF),
-        onTap: (_) => print('DADA'),
+        onTap: (_) => print(_),
         duration: Duration(seconds: 2),
         animationDuration: Duration(milliseconds: 600),
         snackPosition: SnackPosition.TOP,

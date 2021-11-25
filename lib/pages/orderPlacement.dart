@@ -22,8 +22,12 @@ class _OrderPlacementState extends State<OrderPlacement> {
   dynamic cash = true;
   dynamic ponyGold = false;
   dynamic totalAmount = 0;
+  dynamic totalAmountAll = 0;
   dynamic basket = [];
+  dynamic city = {};
+  dynamic user = {};
   String address = '';
+  bool error = true;
 
   @override
   void initState() {
@@ -54,22 +58,21 @@ class _OrderPlacementState extends State<OrderPlacement> {
           'latitude': globals.latitude.toString(),
           'longitude': globals.longitude.toString(),
           'total_amount': totalAmount,
+          'city_id': city['id'],
+          "delivery_price": city['delivery_price'],
           'payment_type': (cash
                   ? 0
                   : plasticCard
                       ? 1
                       : payme
                           ? 2
-                          : null)
+                          : 0)
               .toString()
         },
         context);
-    print(response);
-    if (response.statusCode == 200) {
-      prefs.remove('basket');
-      globals.checkLength(3);
-      Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-    }
+    prefs.remove('basket');
+    globals.checkLength(3);
+    Navigator.pushNamedAndRemoveUntil(context, '/orders', (route) => false);
   }
 
   getProducts() async {
@@ -82,6 +85,12 @@ class _OrderPlacementState extends State<OrderPlacement> {
         basket.add(decode);
       });
     }
+    setState(() {
+      city = jsonDecode(prefs.getString('city').toString());
+      user = jsonDecode(prefs.getString('user').toString());
+      totalAmountAll =
+          ((int.parse(city['delivery_price']) + totalAmount).toString());
+    });
   }
 
   @override
@@ -111,7 +120,8 @@ class _OrderPlacementState extends State<OrderPlacement> {
                 ),
                 Container(
                   margin: EdgeInsets.only(bottom: 15),
-                  child: Text('Товары: $totalAmount сум.'),
+                  child: Text(
+                      'Товары: ${globals.formatMoney(totalAmount.toString())} сум.'),
                 )
                 // Icon(Icons.crop_square),
               ],
@@ -124,7 +134,8 @@ class _OrderPlacementState extends State<OrderPlacement> {
                 ),
                 Container(
                   margin: EdgeInsets.only(bottom: 15),
-                  child: Text('Доставка: 250 000 000сум.'),
+                  child: Text(
+                      'Доставка: ${globals.formatMoney(city['delivery_price'].toString())}сум.'),
                 )
                 // Icon(Icons.crop_square),
               ],
@@ -375,30 +386,76 @@ class _OrderPlacementState extends State<OrderPlacement> {
                                 value: ponyGold,
                                 onChanged: (value) {
                                   setState(() {
-                                    cash = false;
-                                    payme = false;
-                                    ponyGold = value;
-                                    plasticCard = false;
+                                    if (int.parse(totalAmountAll) <=
+                                        int.parse(user['pony_golds'])) {
+                                      ponyGold = value;
+                                      cash = false;
+                                      payme = false;
+                                      plasticCard = false;
+                                    } else {
+                                      error = false;
+                                    }
                                   });
                                 },
                               )),
                         ),
-                        Container(
-                          child: Text(
-                            'Использовать пониголды: 3 000 000 PG',
-                            style: TextStyle(
-                                color: Color(0xFF313131), fontSize: 16),
-                          ),
-                        )
+                        error
+                            ? Container(
+                                child: Text(
+                                  'Использовать пониголды: ${globals.formatMoney(totalAmountAll.toString())} PG',
+                                  style: TextStyle(
+                                      color: Color(0xFF313131), fontSize: 16),
+                                ),
+                              )
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    // margin: EdgeInsets.only(bottom: 5, top: 5),
+                                    child: Text(
+                                      'Использовать пониголды: ${globals.formatMoney(totalAmountAll.toString())} PG',
+                                      style: TextStyle(
+                                          color: Color(0xFF313131),
+                                          decoration:
+                                              TextDecoration.lineThrough,
+                                          fontSize: 16),
+                                    ),
+                                  ),
+                                  Container(
+                                    // margin: EdgeInsets.symmetric(vertical: 5),
+                                    child: Text('Недостаточно PG',
+                                        style: TextStyle(
+                                            color: Color(0xFFEB6465),
+                                            fontSize: 16)),
+                                  ),
+                                ],
+                              )
                       ],
                     ),
-                    Container(
-                      margin: EdgeInsets.only(left: 40, bottom: 10),
-                      child: Text(
-                        'Ваш счет: 3 000 000 PG',
-                        style:
-                            TextStyle(color: Color(0xFF747474), fontSize: 14),
-                      ),
+                    Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(left: 40, bottom: 10),
+                          child: Text(
+                            'Ваш счет: ${globals.formatMoney(user['pony_golds'].toString())} PG',
+                            style: TextStyle(
+                                color: Color(0xFF747474), fontSize: 14),
+                          ),
+                        ),
+                        !error
+                            ? Container(
+                                margin: EdgeInsets.only(left: 10, bottom: 10),
+                                child: Text(
+                                  'Как получить?',
+                                  style: TextStyle(
+                                      color: Color(0xFF00B4AA),
+                                      fontSize: 14,
+                                      decoration: TextDecoration.underline,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                              )
+                            : Container()
+                      ],
                     )
                   ],
                 ),
@@ -453,7 +510,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
             Container(
               margin: EdgeInsets.only(top: 20, left: 15, bottom: 70),
               child: Text(
-                'Итого к оплате: 123 444 444сум',
+                'Итого к оплате: ${globals.formatMoney(totalAmountAll.toString())}сум',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             )

@@ -16,10 +16,27 @@ class _BasketState extends State<Basket> {
   dynamic basket = [];
   dynamic city = {};
   dynamic stringList = [];
+  Widget bottomBar = globals.bottomBar;
   @override
   void initState() {
     super.initState();
     getData();
+  }
+
+  getCities() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString('city') != null) {
+      final cityString = jsonDecode(prefs.getString('city') as String);
+      if (cityString != null) {
+        setState(() {
+          city = cityString;
+        });
+      }
+    } else {
+      setState(() {
+        city = null;
+      });
+    }
   }
 
   getData() async {
@@ -33,12 +50,7 @@ class _BasketState extends State<Basket> {
         });
       }
     }
-    final cityString = jsonDecode(prefs.getString('city') as String);
-    if (cityString != null) {
-      setState(() {
-       city = cityString;
-     });
-    }
+    getCities();
   }
 
   setBasket() async {
@@ -62,6 +74,9 @@ class _BasketState extends State<Basket> {
     }
     prefs.setStringList('basket', _cardInfo);
     globals.checkLength(1);
+    setState(() {
+      bottomBar = globals.bottomBar;
+    });
   }
 
   increment(i) async {
@@ -114,8 +129,11 @@ class _BasketState extends State<Basket> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/cities');
+                    onTap: () async {
+                      final result =
+                          await Navigator.of(context).pushNamed('/cities');
+                      print(result);
+                      getCities();
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -135,13 +153,21 @@ class _BasketState extends State<Basket> {
                                 BorderRadius.all(Radius.circular(5.0)),
                           ),
                           margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                          child: Text(
-                            'Доставка в Ташкент',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 20,
-                                decoration: TextDecoration.underline),
-                          ),
+                          child: city != null
+                              ? Text(
+                                  'Доставка в ${city['name']}',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      decoration: TextDecoration.underline),
+                                )
+                              : Text(
+                                  'Выберите место доставки',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      decoration: TextDecoration.underline),
+                                ),
                         )
                       ],
                     ),
@@ -362,7 +388,11 @@ class _BasketState extends State<Basket> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(primary: Color(0xFF5986E2)),
                 onPressed: () {
-                  Get.toNamed('/order-placement');
+                  if (city != null) {
+                    Get.toNamed('/order-placement');
+                  } else {
+                    globals.showDangerToast('Выберите место для доставки');
+                  }
                 },
                 child: Container(
                   margin: EdgeInsets.only(right: 8),

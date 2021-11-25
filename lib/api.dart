@@ -21,8 +21,6 @@ get(url, context) async {
 }
 
 post(url, payload, context) async {
-  print(baseUrl + url);
-  print(payload);
   final response = await http.post(
     Uri.parse(baseUrl + url),
     headers: <String, String>{

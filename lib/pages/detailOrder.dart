@@ -13,11 +13,14 @@ class DetailOrder extends StatefulWidget {
 
 class _DetailOrderState extends State<DetailOrder> {
   dynamic order = '';
+  dynamic totalAmount = 0;
   @override
   void initState() {
     super.initState();
     setState(() {
       order = Get.arguments;
+      totalAmount =
+          int.parse(order['total_amount']) + int.parse(order['delivery_price']);
     });
   }
 
@@ -122,7 +125,8 @@ class _DetailOrderState extends State<DetailOrder> {
                 ),
                 Container(
                   margin: EdgeInsets.only(bottom: 15),
-                  child: Text('Товары: ${order['total_amount']}сум.',
+                  child: Text(
+                      'Товары: ${globals.formatMoney(order['total_amount'])}сум.',
                       style: TextStyle(fontSize: 16, color: Color(0xFF313131))),
                 )
               ],
@@ -135,7 +139,8 @@ class _DetailOrderState extends State<DetailOrder> {
                 ),
                 Container(
                   margin: EdgeInsets.only(bottom: 15),
-                  child: Text('Доставка: 250 000 000сум.',
+                  child: Text(
+                      'Доставка: ${globals.formatMoney(order['delivery_price'])}сум.',
                       style: TextStyle(fontSize: 16, color: Color(0xFF313131))),
                 )
               ],
@@ -188,7 +193,8 @@ class _DetailOrderState extends State<DetailOrder> {
               ],
             ),
             Padding(padding: EdgeInsets.only(top: 15)),
-            Text('Сумма заказа: 125 000 000 сум',
+            Text(
+                'Сумма заказа: ${globals.formatMoney(totalAmount.toString())} сум',
                 style: TextStyle(
                     fontSize: 18,
                     color: Color(0xFF313131),

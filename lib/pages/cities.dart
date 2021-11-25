@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -63,7 +62,7 @@ class _CitiesState extends State<Cities> {
         await http.get(Uri.parse('https://ponygold.uz/api/support/city/${id}'));
     if (response.statusCode == 200) {
       prefs.setString('city', jsonEncode(jsonDecode(response.body)));
-      Get.back();
+      Navigator.pop(context);
     }
   }
 

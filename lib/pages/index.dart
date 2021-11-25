@@ -24,18 +24,18 @@ class _IndexState extends State<Index> {
   bool loading = false;
   bool pageLoading = false;
   int _current = 0;
+  Widget bottomBar = globals.bottomBar;
   CarouselController buttonCarouselController = CarouselController();
   int page = 1;
   var scrollController = ScrollController();
-
   var _controller = TextEditingController();
 
   @override
   void initState() {
     globals.active = 0;
-    globals.checkLength(3);
     scrollController.addListener(scrollListener);
     setState(() {
+      bottomBar = globals.bottomBar;
       loading = true;
     });
     super.initState();
@@ -423,7 +423,7 @@ class _IndexState extends State<Index> {
                 ],
               ),
             ),
-      bottomNavigationBar: globals.bottomBar,
+      bottomNavigationBar: bottomBar,
     );
   }
 }

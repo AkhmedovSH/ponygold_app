@@ -25,63 +25,6 @@ formatMoney(price) {
   value = value.replaceAll(RegExp(r'\D'), '');
   value = value.replaceAll(RegExp(r'\B(?=(\d{3})+(?!\d))'), ' ');
   return value;
-  // if (number.length <= 3) {
-  //   return number;
-  // }
-  // if (number.length == 4) {
-  //   var x = number.substring(0, 1);
-  //   final y = number.substring(1, 4);
-  //   return x + ' ' + y;
-  // }
-  // if (number.length == 5) {
-  //   var x = number.substring(0, 2);
-  //   final y = number.substring(2, 5);
-  //   return x + ' ' + y;
-  // }
-  // if (number.length == 6) {
-  //   var x = number.substring(0, 3);
-  //   final y = number.substring(3, 6);
-  //   return x + ' ' + y;
-  // }
-  // if (number.length == 7) {
-  //   var x = number.substring(0, 1);
-  //   final y = number.substring(1, 4);
-  //   final z = number.substring(4, 7);
-  //   return x + ' ' + y + ' ' + z;
-  // }
-  // if (number.length == 8) {
-  //   var x = number.substring(0, 2);
-  //   final y = number.substring(2, 5);
-  //   final z = number.substring(5, 8);
-  //   return x + ' ' + y + ' ' + z;
-  // }
-  // if (number.length == 9) {
-  //   var x = number.substring(0, 3);
-  //   final y = number.substring(3, 6);
-  //   final z = number.substring(6, 9);
-  //   return x + ' ' + y + ' ' + z;
-  // }
-  // if (number.length == 10) {
-  //   var x = number.substring(0, 1);
-  //   final y = number.substring(1, 4);
-  //   final z = number.substring(4, 7);
-  //   final d = number.substring(7, 10);
-  //   return x + ' ' + y + ' ' + z + ' ' + d;
-  // }
-  // if (number.length == 11) {
-  //   var x = number.substring(0, 2);
-  //   final y = number.substring(2, 5);
-  //   final z = number.substring(5, 8);
-  //   final d = number.substring(8, 11);
-  //   return x + ' ' + y + ' ' + z + ' ' + d;
-  // }
-  // if (number.length == 12) {
-  //   var x = number.substring(0, 3);
-  //   final y = number.substring(3, 6);
-  //   final z = number.substring(6, 9);
-  //   final d = number.substring(9, 12);
-  //   return x + ' ' + y + ' ' + z + ' ' + d;
-  // }
 }
 
 Widget button = Container(
@@ -430,12 +373,10 @@ post(url, payload, context) async {
   );
   final responseJson = jsonDecode(response.body);
   await statusCheck(response);
-  print(response.statusCode);
-  print(response.body);
   await statusCheck(response);
   if (response.statusCode == 400) {
     // showToast(context, 'Произошла ошибка');
-    Get.snackbar('Ошибка', '${responseJson['error']}', 
+    Get.snackbar('Ошибка', '${responseJson['error']}',
         colorText: Color(0xFFFFFFFF),
         onTap: (_) => print('DADA'),
         duration: Duration(seconds: 2),
@@ -451,8 +392,6 @@ post(url, payload, context) async {
   if (response.statusCode == 401) {
     final user = jsonDecode(prefs.getString('user').toString());
     final password = jsonDecode(prefs.getString('password').toString());
-    print(prefs.getString('user'));
-    print(prefs.getString('password'));
     final login = await http.post(
       Uri.parse('https://ponygold.uz/api/auth/login'),
       headers: <String, String>{
@@ -483,7 +422,6 @@ post(url, payload, context) async {
 statusCheck(response) async {
   if (response.statusCode == 401) {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    print(prefs.getString('user'));
   }
   if (response.statusCode == 200) {
     return 200;
@@ -501,4 +439,24 @@ statusCheck(response) async {
   }
 
   return;
+}
+
+showDangerToast(text) {
+  Get.snackbar('Ошибка', '$text',
+      colorText: Color(0xFFFFFFFF),
+      onTap: (_) => print('DADA'),
+      duration: Duration(seconds: 2),
+      animationDuration: Duration(milliseconds: 600),
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: Color(0xFFEB6465));
+}
+
+showSuccessToast(text) {
+  Get.snackbar('Ошибка', '$text',
+      colorText: Color(0xFFFFFFFF),
+      onTap: (_) => print('DADA'),
+      duration: Duration(seconds: 2),
+      animationDuration: Duration(milliseconds: 600),
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: Color(0xFFEB6465));
 }
