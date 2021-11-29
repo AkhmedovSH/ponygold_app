@@ -20,6 +20,19 @@ double latitude = 0.0;
 double longitude = 0.0;
 int id = 1;
 
+Color white = Color(0xFFFFFFFF);
+Color black = Color(0xFF313131);
+Color blue = Color(0xFF00B4AA);
+Color lightGrey = Color(0xFF313131);
+Color light = Color(0xFFECECEC);
+Color red = Color(0xFFEB6465);
+Color yellow = Color(0xFF313131);
+Color green = Color(0xFF39B499);
+Color grey = Color(0xFF747474);
+Color grey3 = Color(0xFF828282);
+Color disabled = Color(0xFF828282);
+Color purple = Color(0xFFB439A7);
+
 formatMoney(price) {
   var value = price;
   value = value.replaceAll(RegExp(r'\D'), '');
@@ -88,25 +101,27 @@ showToast(context, error) {
 int active = 0;
 
 onItemTab(int index) {
-  active = index;
-  switch (index) {
-    case 0:
-      Get.offAllNamed("/");
-      break;
-    // case 1:
-    //   Get.offAllNamed("/search");
-    //   break;
-    case 1:
-      Get.offAllNamed(
-        "/basket",
-      );
-      break;
-    case 2:
-      Get.offAllNamed("/orders");
-      break;
-    case 3:
-      Get.offAllNamed("/profile");
-      break;
+  if (index != active) {
+    active = index;
+    switch (index) {
+      case 0:
+        Get.offAllNamed("/");
+        break;
+      // case 1:
+      //   Get.offAllNamed("/search");
+      //   break;
+      case 1:
+        Get.offAllNamed(
+          "/basket",
+        );
+        break;
+      case 2:
+        Get.offAllNamed("/orders");
+        break;
+      case 3:
+        Get.offAllNamed("/profile");
+        break;
+    }
   }
   bottomBar = BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
@@ -118,14 +133,13 @@ onItemTab(int index) {
       onTap: onItemTab,
       items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.home,
-              color: active == 0 ? Color(0xFF5986E2) : Color(0xFF828282)),
+          icon: Icon(Icons.home, color: active == 0 ? blue : Color(0xFF828282)),
           label: '',
         ),
         BottomNavigationBarItem(
             icon: Stack(children: [
               Icon(Icons.shopping_cart_outlined,
-                  color: active == 1 ? Color(0xFF5986E2) : Color(0xFF828282)),
+                  color: active == 1 ? blue : Color(0xFF828282)),
               basketlength
                   ? circle
                   : Positioned(
@@ -145,7 +159,7 @@ onItemTab(int index) {
             icon: Stack(
               children: [
                 Icon(Icons.shopping_bag_outlined,
-                    color: active == 2 ? Color(0xFF5986E2) : Color(0xFF828282)),
+                    color: active == 2 ? blue : Color(0xFF828282)),
                 ordersLength
                     ? circle
                     : Positioned(
@@ -164,7 +178,7 @@ onItemTab(int index) {
             label: ''),
         BottomNavigationBarItem(
             icon: Icon(Icons.person,
-                color: active == 3 ? Color(0xFF5986E2) : Color(0xFF828282)),
+                color: active == 3 ? blue : Color(0xFF828282)),
             label: ''),
       ]);
 }
@@ -174,19 +188,18 @@ Widget bottomBar = BottomNavigationBar(
     showSelectedLabels: false,
     currentIndex: active,
     showUnselectedLabels: false,
-    // selectedItemColor: Color(0xFF5986E2),
+    // selectedItemColor: blue,
     // unselectedItemColor: Colors.black,
     onTap: onItemTab,
     items: [
       BottomNavigationBarItem(
-        icon: Icon(Icons.home,
-            color: active == 0 ? Color(0xFF5986E2) : Color(0xFF828282)),
+        icon: Icon(Icons.home, color: active == 0 ? blue : Color(0xFF828282)),
         label: '',
       ),
       BottomNavigationBarItem(
           icon: Stack(children: [
             Icon(Icons.shopping_cart_outlined,
-                color: active == 1 ? Color(0xFF5986E2) : Color(0xFF828282)),
+                color: active == 1 ? blue : Color(0xFF828282)),
             basketlength
                 ? circle
                 : Positioned(
@@ -206,7 +219,7 @@ Widget bottomBar = BottomNavigationBar(
           icon: Stack(
             children: [
               Icon(Icons.shopping_bag_outlined,
-                  color: active == 2 ? Color(0xFF5986E2) : Color(0xFF828282)),
+                  color: active == 2 ? blue : Color(0xFF828282)),
               ordersLength
                   ? circle
                   : Positioned(
@@ -224,8 +237,8 @@ Widget bottomBar = BottomNavigationBar(
           ),
           label: ''),
       BottomNavigationBarItem(
-          icon: Icon(Icons.person,
-              color: active == 3 ? Color(0xFF5986E2) : Color(0xFF828282)),
+          icon:
+              Icon(Icons.person, color: active == 3 ? blue : Color(0xFF828282)),
           label: ''),
     ]);
 
@@ -289,14 +302,13 @@ checkLength(check) async {
       onTap: onItemTab,
       items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.home,
-              color: active == 0 ? Color(0xFF5986E2) : Color(0xFF828282)),
+          icon: Icon(Icons.home, color: active == 0 ? blue : Color(0xFF828282)),
           label: '',
         ),
         BottomNavigationBarItem(
             icon: Stack(children: [
               Icon(Icons.shopping_cart_outlined,
-                  color: active == 1 ? Color(0xFF5986E2) : Color(0xFF828282)),
+                  color: active == 1 ? blue : Color(0xFF828282)),
               basketlength
                   ? circle
                   : Positioned(
@@ -316,7 +328,7 @@ checkLength(check) async {
             icon: Stack(
               children: [
                 Icon(Icons.shopping_bag_outlined,
-                    color: active == 2 ? Color(0xFF5986E2) : Color(0xFF828282)),
+                    color: active == 2 ? blue : Color(0xFF828282)),
                 ordersLength
                     ? circle
                     : Positioned(
@@ -335,7 +347,7 @@ checkLength(check) async {
             label: ''),
         BottomNavigationBarItem(
             icon: Icon(Icons.person,
-                color: active == 3 ? Color(0xFF5986E2) : Color(0xFF828282)),
+                color: active == 3 ? blue : Color(0xFF828282)),
             label: ''),
       ]);
   return bottomBar;
@@ -452,11 +464,11 @@ showDangerToast(text) {
 }
 
 showSuccessToast(text) {
-  Get.snackbar('Ошибка', '$text',
+  Get.snackbar('Успешно', '$text',
       colorText: Color(0xFFFFFFFF),
-      onTap: (_) => print('DADA'),
+      onTap: (_) => print(_),
       duration: Duration(seconds: 2),
       animationDuration: Duration(milliseconds: 600),
       snackPosition: SnackPosition.TOP,
-      backgroundColor: Color(0xFFEB6465));
+      backgroundColor: Color(0xFF39B499));
 }

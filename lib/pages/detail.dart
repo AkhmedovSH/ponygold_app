@@ -119,7 +119,7 @@ class _DetailState extends State<Detail> {
     return Scaffold(
       // extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Color(0xFF5986E2),
+        backgroundColor: globals.blue,
         elevation: 0.0,
       ),
       body: loading
@@ -193,7 +193,7 @@ class _DetailState extends State<Detail> {
                           'сум.',
                       style: TextStyle(
                           fontSize: 18,
-                          color: Color(0xFF5986E2),
+                          color: globals.blue,
                           fontWeight: FontWeight.bold,
                           fontStyle: FontStyle.normal,
                           fontFamily: 'ProDisplay'),
@@ -231,7 +231,7 @@ class _DetailState extends State<Detail> {
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Color(0xFF5986E2),
+                  primary: globals.blue,
                 ),
                 onPressed: () {
                   inBasket(product['id']);

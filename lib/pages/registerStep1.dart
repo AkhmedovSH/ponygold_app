@@ -45,7 +45,7 @@ class _RegisterStep1State extends State<RegisterStep1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(backgroundColor: globals.blue,),
         body: Center(
           child: SingleChildScrollView(
             child: Container(

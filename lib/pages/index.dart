@@ -127,6 +127,7 @@ class _IndexState extends State<Index> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: globals.blue,
         actions: [
           IconButton(
               icon: Icon(Icons.search),
@@ -145,7 +146,7 @@ class _IndexState extends State<Index> {
       body: loading
           ? Center(
               child: CircularProgressIndicator(
-                color: Color(0xFF5986E2),
+                color: globals.blue,
               ),
             )
           : SingleChildScrollView(
@@ -248,7 +249,7 @@ class _IndexState extends State<Index> {
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: _current == i
-                                  ? Color(0xFF5986E2)
+                                  ? globals.blue
                                   : Color(0xFFE1E1E1)),
                         ),
                       )
@@ -256,7 +257,7 @@ class _IndexState extends State<Index> {
                   loading
                       ? Center(
                           child: CircularProgressIndicator(
-                            color: Color(0xFF5986E2),
+                            color: globals.blue,
                           ),
                         )
                       : GridView.count(
@@ -386,7 +387,7 @@ class _IndexState extends State<Index> {
                                                   .toString()) +
                                               'сум.',
                                           style: TextStyle(
-                                              color: Color(0xFF5986E2),
+                                              color: globals.blue,
                                               fontWeight: FontWeight.bold),
                                         ),
                                       ),

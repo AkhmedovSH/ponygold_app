@@ -69,7 +69,9 @@ class _CitiesState extends State<Cities> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: globals.blue,
+      ),
       body: loading
           ? Container(
               padding: EdgeInsets.all(10),
@@ -106,12 +108,12 @@ class _CitiesState extends State<Cities> {
                                       ? Icon(
                                           Icons.expand_more,
                                           size: 24,
-                                          color: Color(0xFF5986E2),
+                                          color: globals.blue,
                                         )
                                       : Icon(
                                           Icons.chevron_right,
                                           size: 24,
-                                          color: Color(0xFF5986E2),
+                                          color: globals.blue,
                                         )
                                 ],
                               ),
@@ -155,7 +157,7 @@ class _CitiesState extends State<Cities> {
             )
           : Center(
               child: CircularProgressIndicator(
-                color: Color(0xFF5986E2),
+                color: globals.blue,
               ),
             ),
     );

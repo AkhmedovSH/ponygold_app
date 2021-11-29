@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
-
+import 'package:PonyGold/globals.dart' as globals;
 // Pages
 
 import 'package:PonyGold/pages/index.dart';
@@ -44,13 +44,14 @@ void main() async {
   runApp(GetMaterialApp(
     popGesture: true,
     locale: lang,
-    defaultTransition: Transition.native,
+    defaultTransition: Transition.leftToRight,
     transitionDuration: Duration(milliseconds: 250),
     debugShowCheckedModeBanner: false,
     localizationsDelegates: AppLocalizations.localizationsDelegates,
     supportedLocales: AppLocalizations.supportedLocales,
     theme: ThemeData(
-        primaryColor: Color(0xFF5986E2),
+        // primarySwatch: Colors.grey,
+        primaryColor: globals.blue,
         fontFamily: 'ProDisplay',
         textTheme: ThemeData.light()
             .textTheme

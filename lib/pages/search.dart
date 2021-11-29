@@ -53,16 +53,16 @@ class _SearchState extends State<Search> {
       appBar: AppBar(
         centerTitle: true,
         iconTheme: IconThemeData(
-          color: Color(0xFF5986E2), //change your color here
+          color: globals.blue, //change your color here
         ),
         title: Text(
           'Pony Gold',
           style: TextStyle(
-            color: Color(0xFF5986E2),
+            color: globals.blue,
             fontWeight: FontWeight.w600,
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: globals.blue,
         brightness: Brightness.light,
         elevation: 0.0,
       ),
@@ -111,7 +111,7 @@ class _SearchState extends State<Search> {
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0)),
                     // focusedBorder: OutlineInputBorder(
-                    //     borderSide: BorderSide(color: Color(0xFF5986E2))),
+                    //     borderSide: BorderSide(color: globals.blue)),
                     hintText: 'Поиск',
                     fillColor: Colors.white,
                     filled: true),

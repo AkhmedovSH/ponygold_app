@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flip_card/flip_card.dart';
 import 'dart:math';
+import 'package:PonyGold/globals.dart' as globals;
 
 class Game extends StatefulWidget {
   Game({Key? key}) : super(key: key);
@@ -66,7 +67,7 @@ class _GameState extends State<Game> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(backgroundColor: globals.blue,),
         body: Column(
           // mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -158,7 +159,7 @@ class _GameState extends State<Game> {
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    primary: win ? Color(0xFF5986E2) : Color(0xFF747474)),
+                    primary: win ? globals.blue : Color(0xFF747474)),
                 onPressed: () {
                   if (win) {
                     if (card == 1) {

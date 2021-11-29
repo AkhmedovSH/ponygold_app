@@ -59,6 +59,7 @@ class _ProfileState extends State<Profile> {
         appBar: AppBar(
           title: Text('Мой профиль'),
           centerTitle: true,
+          backgroundColor: globals.blue,
         ),
         body: loading
             ? Center(
@@ -127,9 +128,7 @@ class _ProfileState extends State<Profile> {
                           child: Text(
                             'Купоны: ${user['pony_game_chances']}',
                             style: TextStyle(
-                                color: Color(
-                                  0xFF5986E2,
-                                ),
+                                color: globals.blue,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold),
                           ),

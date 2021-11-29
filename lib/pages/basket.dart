@@ -42,12 +42,14 @@ class _BasketState extends State<Basket> {
   getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final basketString = prefs.getStringList('basket');
-    if (basketString!.length > 0) {
-      for (var i = 0; i < basketString.length; i++) {
-        setState(() {
-          basket.add(jsonDecode(basketString[i]));
-          stringList.add((basketString[i]));
-        });
+    if (prefs.getStringList('basket') != null) {
+      if (basketString!.length > 0) {
+        for (var i = 0; i < basketString.length; i++) {
+          setState(() {
+            basket.add(jsonDecode(basketString[i]));
+            stringList.add((basketString[i]));
+          });
+        }
       }
     }
     getCities();
@@ -111,6 +113,7 @@ class _BasketState extends State<Basket> {
           AppLocalizations.of(context)!.basket,
         ),
         centerTitle: true,
+        backgroundColor: globals.blue,
       ),
       body: basket.length > 0
           ? SingleChildScrollView(
@@ -143,7 +146,7 @@ class _BasketState extends State<Basket> {
                           margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
                           child: Icon(
                             Icons.location_on,
-                            color: Color(0xFF5986E2),
+                            color: globals.blue,
                           ),
                         ),
                         Container(
@@ -386,7 +389,7 @@ class _BasketState extends State<Basket> {
               height: 48,
               width: double.infinity,
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(primary: Color(0xFF5986E2)),
+                style: ElevatedButton.styleFrom(primary: globals.blue),
                 onPressed: () {
                   if (city != null) {
                     Get.toNamed('/order-placement');

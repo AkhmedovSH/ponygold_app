@@ -91,6 +91,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
       totalAmountAll =
           ((int.parse(city['delivery_price']) + totalAmount).toString());
     });
+    print(user['id']);
   }
 
   @override
@@ -99,6 +100,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
       appBar: AppBar(
         title: Text('Корзина'),
         centerTitle: true,
+        backgroundColor: globals.blue,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -169,7 +171,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
                   margin: EdgeInsets.fromLTRB(20, 0, 0, 15),
                   child: Icon(
                     Icons.location_on,
-                    color: Color(0xFF5986E2),
+                    color: globals.blue,
                   ),
                 ),
                 GestureDetector(
@@ -187,7 +189,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16,
-                        color: Color(0xFF5986E2),
+                        color: globals.blue,
                       ),
                     ),
                   ),
@@ -196,7 +198,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
                   margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
                   child: Icon(
                     Icons.arrow_forward_ios,
-                    color: Color(0xFF5986E2),
+                    color: globals.blue,
                     size: 16,
                   ),
                 ),
@@ -364,7 +366,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
             ),
             DottedBorder(
               dashPattern: [5, 5, 5, 5],
-              color: Color(0xFF5986E2),
+              color: globals.blue,
               child: Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -522,7 +524,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
         height: 48,
         width: double.infinity,
         child: ElevatedButton(
-          style: ElevatedButton.styleFrom(primary: Color(0xFF5986E2)),
+          style: ElevatedButton.styleFrom(primary: globals.blue),
           onPressed: () {
             createOrder();
           },

@@ -52,7 +52,7 @@ class _OrdersState extends State<Orders> {
         }
         if (responseJson['data'][i]['status'] == '3') {
           responseJson['data'][i]['status_text'] = 'В пути';
-          responseJson['data'][i]['status_color'] = 0xFF5986E2;
+          responseJson['data'][i]['status_color'] = globals.blue;
         }
         if (responseJson['data'][i]['status'] == '4') {
           responseJson['data'][i]['status_text'] = 'Доставлено';
@@ -72,6 +72,7 @@ class _OrdersState extends State<Orders> {
       appBar: AppBar(
         title: Text('Мои заказы'),
         centerTitle: true,
+        backgroundColor: globals.blue,
       ),
       body: loading
           ? Center(
@@ -132,10 +133,10 @@ class _OrdersState extends State<Orders> {
                                               child: Icon(
                                             Icons.arrow_forward_ios,
                                             size: 18,
-                                            color: Color(0xFF5986E2),
+                                            color: globals.blue,
                                           ))),
                                       Positioned(
-                                          left: 6,
+                                          // left: 6,
                                           bottom: 4,
                                           child: Container(
                                               child: Text(

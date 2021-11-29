@@ -90,6 +90,7 @@ class _CategoriesState extends State<Categories> {
       appBar: AppBar(
         title: Text('Категории'),
         centerTitle: true,
+        backgroundColor: globals.blue,
       ),
       body: loading
           ? Column(
@@ -251,7 +252,7 @@ class _CategoriesState extends State<Categories> {
                                           .toString()) +
                                       'сум.',
                                   style: TextStyle(
-                                      color: Color(0xFF5986E2),
+                                      color: globals.blue,
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
@@ -277,7 +278,7 @@ class _CategoriesState extends State<Categories> {
             )
           : Center(
               child: CircularProgressIndicator(
-                color: Color(0xFF5986E2),
+                color: globals.blue,
               ),
             ),
       bottomNavigationBar: globals.bottomBar,
@@ -348,6 +349,7 @@ class _FilterState extends State<Filter> {
           },
           icon: Icon(Icons.arrow_back),
         ),
+        backgroundColor: globals.blue,
       ),
       body: loading
           ? SingleChildScrollView(
@@ -512,13 +514,13 @@ class _FilterState extends State<Filter> {
                                             child: Icon(
                                               Icons.arrow_forward_ios,
                                               size: 16,
-                                              color: Color(0xFF5986E2),
+                                              color: globals.blue,
                                             ),
                                           )
                                         : Icon(
                                             Icons.arrow_forward_ios,
                                             size: 16,
-                                            color: Color(0xFF5986E2),
+                                            color: globals.blue,
                                           ),
                                   ),
                                 ],
@@ -583,15 +585,13 @@ class _FilterState extends State<Filter> {
                                                           Icons
                                                               .arrow_forward_ios,
                                                           size: 16,
-                                                          color:
-                                                              Color(0xFF5986E2),
+                                                          color: globals.blue,
                                                         ),
                                                       )
                                                     : Icon(
                                                         Icons.arrow_forward_ios,
                                                         size: 16,
-                                                        color:
-                                                            Color(0xFF5986E2),
+                                                        color: globals.blue,
                                                       ),
                                               ),
                                             ],
@@ -644,7 +644,7 @@ class _FilterState extends State<Filter> {
             ))
           : Center(
               child: CircularProgressIndicator(
-                color: Color(0xFF5986E2),
+                color: globals.blue,
               ),
             ),
       floatingActionButton: Container(

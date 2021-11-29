@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:PonyGold/globals.dart' as globals;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PasswordRecoveryGet extends StatefulWidget {
@@ -13,7 +14,9 @@ class _PasswordRecoveryGetState extends State<PasswordRecoveryGet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: globals.blue,
+      ),
       body: Container(
         padding: EdgeInsets.all(20),
         child: Column(

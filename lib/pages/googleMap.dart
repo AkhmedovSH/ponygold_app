@@ -41,6 +41,7 @@ class MapSampleState extends State<MapSample> {
         appBar: AppBar(
           title: Text("Корзина"),
           centerTitle: true,
+          backgroundColor: globals.blue,
         ),
         body: GoogleMap(
           myLocationButtonEnabled: true,
@@ -87,11 +88,11 @@ class MapSampleState extends State<MapSample> {
               height: 48,
               width: double.infinity,
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(primary: Color(0xFF5986E2)),
+                style: ElevatedButton.styleFrom(primary: globals.blue),
                 onPressed: () {
                   globals.latitude = latitude;
                   globals.longitude = longitude;
-                  Get.back(); 
+                  Get.back();
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -112,7 +113,6 @@ class MapSampleState extends State<MapSample> {
   }
 
   handleTab(LatLng tappedPoint) {
-    
     setState(() {
       latitude = tappedPoint.latitude;
       longitude = tappedPoint.longitude;

@@ -30,6 +30,7 @@ class _DetailOrderState extends State<DetailOrder> {
       appBar: AppBar(
         title: Text('Мои заказы'),
         centerTitle: true,
+        backgroundColor: globals.blue,
       ),
       body: SingleChildScrollView(
           child: Container(

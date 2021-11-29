@@ -21,7 +21,9 @@ class _LanguageState extends State<Language> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: globals.blue,
+      ),
       body: Container(
         padding: EdgeInsets.all(20),
         child: Column(
