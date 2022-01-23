@@ -1,3 +1,4 @@
+import 'package:PonyGold/components/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:PonyGold/globals.dart' as globals;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -210,7 +211,7 @@ class _DetailState extends State<Detail> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(bottom: 50),
+                    margin: EdgeInsets.only(bottom: 70),
                     padding: EdgeInsets.fromLTRB(16, 5, 16, 0),
                     child: Text(
                       product['description_uz'],
@@ -251,7 +252,7 @@ class _DetailState extends State<Detail> {
                 ),
               ),
             ),
-      bottomNavigationBar: globals.bottomBar,
+      bottomNavigationBar: BottomBar(active: 0,),
     );
   }
 }

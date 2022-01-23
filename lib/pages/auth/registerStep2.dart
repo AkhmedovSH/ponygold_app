@@ -30,7 +30,7 @@ class _RegisterStep2State extends State<RegisterStep2> {
       body: jsonEncode(<String, String>{
         'login': login,
         'password': password,
-        'phone': '998' + globals.phone
+        'phone': globals.phone
       }),
     );
     final responseJson = jsonDecode(response.body);
@@ -40,10 +40,8 @@ class _RegisterStep2State extends State<RegisterStep2> {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, String>{
-          'phone': '998' + globals.phone,
-          'password': password
-        }),
+        body: jsonEncode(
+            <String, String>{'phone': globals.phone, 'password': password}),
       );
       final dataJson = jsonDecode(data.body);
       prefs.setString('access_token', dataJson['access_token'].toString());
@@ -57,7 +55,9 @@ class _RegisterStep2State extends State<RegisterStep2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(backgroundColor: globals.blue,),
+        appBar: AppBar(
+          backgroundColor: globals.blue,
+        ),
         body: Center(
           child: SingleChildScrollView(
             child: Container(
@@ -87,7 +87,6 @@ class _RegisterStep2State extends State<RegisterStep2> {
                             }
                             return null;
                           },
-                          keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: 'Логин',

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -7,16 +8,17 @@ import 'package:PonyGold/globals.dart' as globals;
 // Pages
 
 import 'package:PonyGold/pages/index.dart';
-import 'package:PonyGold/pages/language.dart';
-import 'package:PonyGold/pages/login.dart';
-import 'package:PonyGold/pages/passwordRecoveryGet.dart';
-import 'package:PonyGold/pages/passwordRecoveryConfirm.dart';
-import 'package:PonyGold/pages/confirmOtp.dart';
-import 'package:PonyGold/pages/registerStep1.dart';
-import 'package:PonyGold/pages/registerStep2.dart';
+import 'package:PonyGold/pages/auth/language.dart';
+import 'package:PonyGold/pages/auth/login.dart';
+import 'package:PonyGold/pages/auth/passwordRecoveryGet.dart';
+import 'package:PonyGold/pages/auth/passwordRecoveryConfirm.dart';
+import 'package:PonyGold/pages/auth/confirmOtp.dart';
+import 'package:PonyGold/pages/auth/registerStep1.dart';
+import 'package:PonyGold/pages/auth/registerStep2.dart';
 import 'package:PonyGold/pages/intro.dart';
 import 'package:PonyGold/pages/detail.dart';
-import 'package:PonyGold/pages/categories.dart';
+import 'package:PonyGold/pages/category/categories.dart';
+import 'package:PonyGold/pages/category/filter.dart';
 import 'package:PonyGold/pages/profile.dart';
 import 'package:PonyGold/pages/basket.dart';
 import 'package:PonyGold/pages/orderPlacement.dart';
@@ -50,8 +52,14 @@ void main() async {
     localizationsDelegates: AppLocalizations.localizationsDelegates,
     supportedLocales: AppLocalizations.supportedLocales,
     theme: ThemeData(
-        // primarySwatch: Colors.grey,
+        backgroundColor: const Color(0xFFFFFFFF),
+        scaffoldBackgroundColor: const Color(0xFFFFFFFF),
         primaryColor: globals.blue,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            primary: globals.blue,
+          ),
+        ),
         fontFamily: 'ProDisplay',
         textTheme: ThemeData.light()
             .textTheme
@@ -145,6 +153,12 @@ class RouteGenerator {
         return GetPageRoute(
           settings: settings,
           page: () => Categories(),
+          transition: Transition.rightToLeft,
+        );
+      case '/filter':
+        return GetPageRoute(
+          settings: settings,
+          page: () => Filter(),
           transition: Transition.rightToLeft,
         );
       case '/basket':

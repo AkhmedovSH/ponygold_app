@@ -1,3 +1,4 @@
+import 'package:PonyGold/components/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -195,7 +196,9 @@ class _OrdersState extends State<Orders> {
                       ),
               ),
             ),
-      bottomNavigationBar: globals.bottomBar,
+      bottomNavigationBar: BottomBar(
+        active: 2,
+      ),
     );
   }
 }

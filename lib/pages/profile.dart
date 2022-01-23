@@ -1,3 +1,4 @@
+import 'package:PonyGold/components/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:PonyGold/globals.dart' as globals;
 import 'dart:io';
@@ -246,7 +247,7 @@ class _ProfileState extends State<Profile> {
                   ],
                 ),
               ),
-        bottomNavigationBar: globals.bottomBar,
+        bottomNavigationBar: BottomBar(active: 3),
       ),
     );
   }

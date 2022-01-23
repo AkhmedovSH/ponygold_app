@@ -62,7 +62,8 @@ class _LanguageState extends State<Language> {
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity, 50)),
+                    minimumSize: Size(double.infinity, 50),
+                    primary: globals.blue),
                 onPressed: () {
                   setLanguage('uz');
                 },

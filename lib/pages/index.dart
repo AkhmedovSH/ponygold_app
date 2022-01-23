@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:PonyGold/globals.dart' as globals;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
+import 'package:PonyGold/globals.dart' as globals;
+import 'package:PonyGold/components/bottom_bar.dart';
 
 class Index extends StatefulWidget {
   Index({Key? key}) : super(key: key);
@@ -261,7 +263,7 @@ class _IndexState extends State<Index> {
                           ),
                         )
                       : GridView.count(
-                          childAspectRatio: 0.78,
+                          childAspectRatio: 0.76,
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
                           primary: false,
@@ -287,6 +289,7 @@ class _IndexState extends State<Index> {
                                   //         : 190,
                                   // margin: EdgeInsets.fromLTRB(
                                   //     0, 10, i % 2 == 0 ? 10 : 0, 10),
+                                  padding: EdgeInsets.all(0),
                                   decoration: const BoxDecoration(
                                     color: Colors.white,
                                     border: Border(
@@ -358,6 +361,7 @@ class _IndexState extends State<Index> {
                                         margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
                                         child: Text(
                                           products[i]['name_uz'],
+                                          overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
                                               fontFamily: 'ProDisplay',
                                               fontSize: 14,
@@ -424,7 +428,7 @@ class _IndexState extends State<Index> {
                 ],
               ),
             ),
-      bottomNavigationBar: bottomBar,
+      bottomNavigationBar: BottomBar(active: 0),
     );
   }
 }

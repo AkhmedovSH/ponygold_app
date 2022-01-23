@@ -15,13 +15,13 @@ class _ConfirmOtpState extends State<ConfirmOtp> {
   String otp = '';
 
   checkOtp() async {
+    print(globals.phone);
     final response = await http.post(
       Uri.parse('https://ponygold.uz/api/auth/check-otp'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(
-          <String, String>{'otp': otp, 'phone': '998' + globals.phone}),
+      body: jsonEncode(<String, String>{'otp': otp, 'phone': globals.phone}),
     );
     if (response.statusCode == 200) {
       Navigator.pushNamed(context, '/register-step-2');
@@ -34,7 +34,9 @@ class _ConfirmOtpState extends State<ConfirmOtp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: globals.blue,),
+      appBar: AppBar(
+        backgroundColor: globals.blue,
+      ),
       body: Container(
         padding: EdgeInsets.all(20),
         child: Column(

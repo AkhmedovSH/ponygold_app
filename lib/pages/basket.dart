@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:PonyGold/components/bottom_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:PonyGold/globals.dart' as globals;
@@ -157,12 +158,17 @@ class _BasketState extends State<Basket> {
                           ),
                           margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
                           child: city != null
-                              ? Text(
-                                  'Доставка в ${city['name']}',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      decoration: TextDecoration.underline),
+                              ? Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.8,
+                                  child: Text(
+                                    'Доставка в ${city['name']}',
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        decoration: TextDecoration.underline),
+                                  ),
                                 )
                               : Text(
                                   'Выберите место доставки',
@@ -407,7 +413,9 @@ class _BasketState extends State<Basket> {
               ),
             )
           : Container(),
-      bottomNavigationBar: globals.bottomBar,
+      bottomNavigationBar: BottomBar(
+        active: 1,
+      ),
     );
   }
 }

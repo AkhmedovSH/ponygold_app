@@ -86,10 +86,10 @@ showToast(context, error) {
       ),
 
       duration: Duration(milliseconds: 5000),
-      width: 300, // Width of the SnackBar.
+      width: 350, // Width of the SnackBar.
       padding: EdgeInsets.symmetric(
           horizontal: 8.0, // Inner padding for SnackBar content.
-          vertical: 8.0),
+          vertical: 16.0),
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5.0),
@@ -367,7 +367,7 @@ get(url, context) async {
     },
   );
   // print(response);
-  statusCheck(response);
+  statusCheck(response, url);
   final responseJson = jsonDecode(response.body);
   return responseJson;
 }
@@ -384,8 +384,6 @@ post(url, payload, context) async {
     body: jsonEncode(payload),
   );
   final responseJson = jsonDecode(response.body);
-  await statusCheck(response);
-  await statusCheck(response);
   if (response.statusCode == 400) {
     // showToast(context, 'Произошла ошибка');
     Get.snackbar('Ошибка', '${responseJson['error']}',
@@ -431,9 +429,36 @@ post(url, payload, context) async {
   }
 }
 
-statusCheck(response) async {
+statusCheck(response, url) async {
   if (response.statusCode == 401) {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = jsonDecode(prefs.getString('access_token').toString());
+    final user = jsonDecode(prefs.getString('user').toString());
+    final password = jsonDecode(prefs.getString('password').toString());
+    final login = await http.post(
+      Uri.parse('https://ponygold.uz/api/auth/login'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'phone': user['phone'],
+        'password': password.toString()
+      }),
+    );
+    if (login.statusCode == 200) {
+      final responseJson = jsonDecode(login.body);
+      prefs.setString('access_token', responseJson['access_token']);
+      prefs.setString('user', jsonEncode(responseJson['user']));
+      prefs.setString('password', password.toString());
+      final response = await http.get(
+        Uri.parse(baseUrl + url),
+        headers: {
+          // HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+          'Content-Type': 'application/json; charset=UTF-8',
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+        },
+      );
+    }
   }
   if (response.statusCode == 200) {
     return 200;

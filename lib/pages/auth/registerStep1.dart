@@ -34,7 +34,8 @@ class _RegisterStep1State extends State<RegisterStep1> {
     );
     final responseJson = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      globals.phone = phone;
+      print(maskFormatter.getUnmaskedText());
+      globals.phone = maskFormatter.getUnmaskedText();
       Navigator.pushNamed(context, '/confirm-otp');
     }
     if (response.statusCode == 400) {
@@ -45,7 +46,9 @@ class _RegisterStep1State extends State<RegisterStep1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(backgroundColor: globals.blue,),
+        appBar: AppBar(
+          backgroundColor: globals.blue,
+        ),
         body: Center(
           child: SingleChildScrollView(
             child: Container(
@@ -109,13 +112,14 @@ class _RegisterStep1State extends State<RegisterStep1> {
                             border: OutlineInputBorder(),
                             // contentPadding: EdgeInsets.symmetric(vertical: 10),
                             labelStyle: TextStyle(fontSize: 16),
-                            prefixIcon: Padding(
-                              padding: EdgeInsets.only(left: 10, bottom: 2),
-                              child: Text(
-                                "+998 (99) 999 99 99",
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ),
+                            // prefixIcon: Padding(
+                            //   padding: EdgeInsets.only(left: 10, bottom: 2),
+                            //   child: Text(
+                            //     "+998 (99) 999 99 99",
+                            //     style: TextStyle(fontSize: 16),
+                            //   ),
+                            // ),
+                            hintText: '+998 (99) 999 99 99',
                             prefixIconConstraints:
                                 BoxConstraints(minWidth: 0, minHeight: 0),
                           ),

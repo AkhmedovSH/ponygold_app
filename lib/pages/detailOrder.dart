@@ -1,3 +1,4 @@
+import 'package:PonyGold/components/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:PonyGold/globals.dart' as globals;
@@ -203,7 +204,7 @@ class _DetailOrderState extends State<DetailOrder> {
           ],
         ),
       )),
-      bottomNavigationBar: globals.bottomBar,
+      bottomNavigationBar: BottomBar(active: 2,),
     );
   }
 }
