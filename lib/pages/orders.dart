@@ -43,6 +43,7 @@ class _OrdersState extends State<Orders> {
     if (response.statusCode == 200) {
       var responseJson = jsonDecode(response.body);
       for (var i = 0; i < responseJson['data'].length; i++) {
+        print(responseJson['data'][i]['status'].runtimeType);
         if (responseJson['data'][i]['status'] == '1') {
           responseJson['data'][i]['status_text'] = 'Обрабатывается';
           responseJson['data'][i]['status_color'] = 0xFFF3B231;
@@ -53,7 +54,7 @@ class _OrdersState extends State<Orders> {
         }
         if (responseJson['data'][i]['status'] == '3') {
           responseJson['data'][i]['status_text'] = 'В пути';
-          responseJson['data'][i]['status_color'] = globals.blue;
+          responseJson['data'][i]['status_color'] = 0xFF00B4AA;
         }
         if (responseJson['data'][i]['status'] == '4') {
           responseJson['data'][i]['status_text'] = 'Доставлено';

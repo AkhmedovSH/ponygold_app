@@ -186,13 +186,13 @@ class _IndexState extends State<Index> {
                                     Padding(padding: EdgeInsets.only(top: 10)),
                                     Image.network(
                                       'https://ponygold.uz/uploads/categories/' +
-                                          categories[i]['image'],
+                                          categories[i]['image_mobile'],
                                       height: 80,
                                       width: double.infinity,
                                     ),
                                     Padding(padding: EdgeInsets.only(top: 10)),
                                     Text(
-                                      categories[i]['name_ru'],
+                                      categories[i]['name_' + globals.lang],
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700),
                                     )
@@ -262,160 +262,170 @@ class _IndexState extends State<Index> {
                             color: globals.blue,
                           ),
                         )
-                      : GridView.count(
-                          childAspectRatio: 0.76,
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          primary: false,
-                          padding: const EdgeInsets.all(10),
-                          crossAxisSpacing: 8,
-                          mainAxisSpacing: 8,
-                          crossAxisCount: 2,
-                          children: [
-                            for (int i = 0; i < products.length; i++)
-                              GestureDetector(
-                                onTap: () {
-                                  Get.toNamed('/detail',
-                                      arguments: products[i]['id']);
-                                },
-                                child: Container(
-                                  // height: double.infinity,
-                                  // height:
-                                  //     MediaQuery.of(context).size.height * 0.70,
-                                  // width: width == 392.72727272727275
-                                  //     ? 190
-                                  //     : width == 411.42857142857144
-                                  //         ? 200
-                                  //         : 190,
-                                  // margin: EdgeInsets.fromLTRB(
-                                  //     0, 10, i % 2 == 0 ? 10 : 0, 10),
-                                  padding: EdgeInsets.all(0),
-                                  decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border(
-                                      top: BorderSide(
-                                          width: 1.0, color: Color(0xFFECECEC)),
-                                      left: BorderSide(
-                                          width: 1.0, color: Color(0xFFECECEC)),
-                                      right: BorderSide(
-                                          width: 1.0, color: Color(0xFFECECEC)),
-                                      bottom: BorderSide(
-                                          width: 1.0, color: Color(0xFFECECEC)),
+                      : Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: Wrap(
+                            // spacing: 10.0,
+                            // runSpacing: 15.0,
+                            alignment: WrapAlignment.spaceBetween,
+                            children: [
+                              for (int i = 0; i < products.length; i++)
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.toNamed('/detail',
+                                        arguments: products[i]['id']);
+                                  },
+                                  child: Container(
+                                    // height: double.infinity,
+                                    // height:
+                                    //     MediaQuery.of(context).size.height * 0.70,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.47,
+                                    // width: width == 392.72727272727275
+                                    //     ? 190
+                                    //     : width == 411.42857142857144
+                                    //         ? 200
+                                    //         : 190,
+                                    margin: EdgeInsets.fromLTRB(
+                                        i % 2 == 0 ? 5 : 0,
+                                        10,
+                                        i % 2 == 0 ? 10 : 5,
+                                        10),
+                                    padding: EdgeInsets.all(0),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        width: 1,
+                                        color: Color(0xFFECECEC),
+                                      ),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.0)),
                                     ),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Stack(
-                                        children: [
-                                          Padding(
-                                            padding: EdgeInsets.all(5),
-                                            child: Image.network(
-                                                'https://ponygold.uz/uploads/products/' +
-                                                    products[i]['image'],
-                                                height: 140,
-                                                width: double.infinity,
-                                                fit: BoxFit.fill),
-                                          ),
-                                          int.parse(products[i]['discount']) !=
-                                                  0
-                                              ? Container(
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.only(
-                                                      topLeft: Radius.zero,
-                                                      topRight:
-                                                          Radius.circular(5.0),
-                                                      bottomLeft: Radius.zero,
-                                                      bottomRight:
-                                                          Radius.circular(5.0),
-                                                    ),
-                                                    border: Border.all(
-                                                      width: 1,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Stack(
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.all(5),
+                                              child: Image.network(
+                                                  'https://ponygold.uz/uploads/products/' +
+                                                      products[i]['image'],
+                                                  height: 140,
+                                                  width: double.infinity,
+                                                  fit: BoxFit.fill),
+                                            ),
+                                            int.parse(products[i]
+                                                        ['discount']) !=
+                                                    0
+                                                ? Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                        topLeft: Radius.zero,
+                                                        topRight:
+                                                            Radius.circular(
+                                                                5.0),
+                                                        bottomLeft: Radius.zero,
+                                                        bottomRight:
+                                                            Radius.circular(
+                                                                5.0),
+                                                      ),
+                                                      border: Border.all(
+                                                        width: 1,
+                                                        color:
+                                                            Color(0xFFEB6465),
+                                                        style:
+                                                            BorderStyle.solid,
+                                                      ),
                                                       color: Color(0xFFEB6465),
-                                                      style: BorderStyle.solid,
                                                     ),
-                                                    color: Color(0xFFEB6465),
-                                                  ),
-                                                  margin:
-                                                      EdgeInsets.only(top: 10),
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      5, 3, 5, 3),
-                                                  child: Text(
-                                                    '-' +
-                                                        products[i]['discount']
-                                                            .toString() +
-                                                        '%',
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                    ),
-                                                  ))
-                                              : Container(),
-                                        ],
-                                      ),
-                                      Container(
-                                        padding: EdgeInsets.only(left: 8),
-                                        margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                        child: Text(
-                                          products[i]['name_uz'],
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              fontFamily: 'ProDisplay',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              letterSpacing: 0.12),
+                                                    margin: EdgeInsets.only(
+                                                        top: 10),
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            5, 3, 5, 3),
+                                                    child: Text(
+                                                      '-' +
+                                                          products[i]
+                                                                  ['discount']
+                                                              .toString() +
+                                                          '%',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                    ))
+                                                : Container(),
+                                          ],
                                         ),
-                                      ),
-                                      Container(
-                                        padding: EdgeInsets.only(left: 8),
-                                        margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                        child: Text(
-                                          products[i]['brand']['name'],
-                                          style: TextStyle(
-                                              fontFamily: 'ProDisplay',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.normal,
-                                              color: Color(0xFF747474),
-                                              letterSpacing: 0.12),
+                                        Container(
+                                          padding: EdgeInsets.only(left: 8),
+                                          margin:
+                                              EdgeInsets.fromLTRB(0, 5, 0, 0),
+                                          child: Text(
+                                            products[i]['name_' + globals.lang],
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontFamily: 'ProDisplay',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                letterSpacing: 0.12),
+                                          ),
                                         ),
-                                      ),
-                                      Container(
-                                        padding: EdgeInsets.only(left: 8),
-                                        margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                        child: Text(
-                                          globals.formatMoney(products[i]
-                                                      ['discount_price']
-                                                  .toString()) +
-                                              'сум.',
-                                          style: TextStyle(
-                                              color: globals.blue,
-                                              fontWeight: FontWeight.bold),
+                                        Container(
+                                          padding: EdgeInsets.only(left: 8),
+                                          margin:
+                                              EdgeInsets.fromLTRB(0, 5, 0, 0),
+                                          child: Text(
+                                            products[i]['brand']['name'],
+                                            style: TextStyle(
+                                                fontFamily: 'ProDisplay',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.normal,
+                                                color: Color(0xFF747474),
+                                                letterSpacing: 0.12),
+                                          ),
                                         ),
-                                      ),
-                                      int.parse(products[i]['discount']) != 0
-                                          ? Container(
-                                              padding: EdgeInsets.only(left: 8),
-                                              child: Text(
-                                                globals
-                                                    .formatMoney(
-                                                        products[i]['price'])
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    fontSize: 12,
-                                                    color: Color(0xFF747474),
-                                                    decoration: TextDecoration
-                                                        .lineThrough),
-                                              ),
-                                            )
-                                          : Container(),
-                                    ],
+                                        Container(
+                                          padding: EdgeInsets.only(left: 8),
+                                          margin:
+                                              EdgeInsets.fromLTRB(0, 5, 0, 0),
+                                          child: Text(
+                                            globals.formatMoney(products[i]
+                                                        ['discount_price']
+                                                    .toString()) +
+                                                'сум.',
+                                            style: TextStyle(
+                                                color: globals.blue,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                        int.parse(products[i]['discount']) != 0
+                                            ? Container(
+                                                margin:
+                                                    EdgeInsets.only(bottom: 5),
+                                                padding:
+                                                    EdgeInsets.only(left: 8),
+                                                child: Text(
+                                                  globals
+                                                      .formatMoney(
+                                                          products[i]['price'])
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Color(0xFF747474),
+                                                      decoration: TextDecoration
+                                                          .lineThrough),
+                                                ),
+                                              )
+                                            : Container(),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              )
-                          ],
+                                )
+                            ],
+                          ),
                         ),
                   pageLoading
                       ? Center(

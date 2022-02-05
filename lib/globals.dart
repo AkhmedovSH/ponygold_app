@@ -294,63 +294,6 @@ checkLength(check) async {
       ordersLength = responseJson['data'].length > 0;
     }
   }
-  bottomBar = BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      showSelectedLabels: false,
-      currentIndex: active,
-      showUnselectedLabels: false,
-      onTap: onItemTab,
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home, color: active == 0 ? blue : Color(0xFF828282)),
-          label: '',
-        ),
-        BottomNavigationBarItem(
-            icon: Stack(children: [
-              Icon(Icons.shopping_cart_outlined,
-                  color: active == 1 ? blue : Color(0xFF828282)),
-              basketlength
-                  ? circle
-                  : Positioned(
-                      top: 0,
-                      right: 0,
-                      child: Container(
-                        height: 10,
-                        width: 10,
-                        decoration: new BoxDecoration(
-                          color: Colors.white.withOpacity(0),
-                          shape: BoxShape.circle,
-                        ),
-                      ))
-            ]),
-            label: ''),
-        BottomNavigationBarItem(
-            icon: Stack(
-              children: [
-                Icon(Icons.shopping_bag_outlined,
-                    color: active == 2 ? blue : Color(0xFF828282)),
-                ordersLength
-                    ? circle
-                    : Positioned(
-                        top: 0,
-                        right: 0,
-                        child: Container(
-                          height: 10,
-                          width: 10,
-                          decoration: new BoxDecoration(
-                            color: Colors.white.withOpacity(0),
-                            shape: BoxShape.circle,
-                          ),
-                        ))
-              ],
-            ),
-            label: ''),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.person,
-                color: active == 3 ? blue : Color(0xFF828282)),
-            label: ''),
-      ]);
-  return bottomBar;
 }
 
 String baseUrl = 'https://ponygold.uz';
@@ -366,7 +309,6 @@ get(url, context) async {
       HttpHeaders.authorizationHeader: 'Bearer $token',
     },
   );
-  // print(response);
   statusCheck(response, url);
   final responseJson = jsonDecode(response.body);
   return responseJson;

@@ -13,9 +13,10 @@ class BottomBar extends StatefulWidget {
 
 class _BottomBarState extends State<BottomBar> {
   int index = 0;
+  bool basketlength = false;
+  bool ordersLength = false;
 
   onItemTab(int index) {
-    print(index);
     if (index != widget.active) {
       setState(() {
         // active = index;
@@ -42,6 +43,25 @@ class _BottomBarState extends State<BottomBar> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    basketlength = globals.basketlength;
+    ordersLength = globals.ordersLength;
+  }
+
+  Widget circle = Positioned(
+      top: 0,
+      right: 0,
+      child: Container(
+        height: 10,
+        width: 10,
+        decoration: new BoxDecoration(
+          color: Color(0xFFEB6465),
+          shape: BoxShape.circle,
+        ),
+      ));
+
+  @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -52,20 +72,50 @@ class _BottomBarState extends State<BottomBar> {
         backgroundColor: globals.white,
         selectedItemColor: globals.blue,
         selectedIconTheme: IconThemeData(color: globals.blue),
-        items: const [
+        items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: '',
           ),
           BottomNavigationBarItem(
-              icon: Icon(
-                Icons.shopping_cart_outlined,
-              ),
+              icon: Stack(children: [
+                Icon(
+                  Icons.shopping_cart_outlined,
+                ),
+                basketlength
+                    ? circle
+                    : Positioned(
+                        top: 0,
+                        right: 0,
+                        child: Container(
+                          height: 10,
+                          width: 10,
+                          decoration: new BoxDecoration(
+                            color: Colors.white.withOpacity(0),
+                            shape: BoxShape.circle,
+                          ),
+                        ))
+              ]),
               label: ''),
           BottomNavigationBarItem(
-              icon: Icon(
-                Icons.shopping_bag_outlined,
-              ),
+              icon: Stack(children: [
+                Icon(
+                  Icons.shopping_bag_outlined,
+                ),
+                ordersLength
+                    ? circle
+                    : Positioned(
+                        top: 0,
+                        right: 0,
+                        child: Container(
+                          height: 10,
+                          width: 10,
+                          decoration: new BoxDecoration(
+                            color: Colors.white.withOpacity(0),
+                            shape: BoxShape.circle,
+                          ),
+                        ))
+              ]),
               label: ''),
           BottomNavigationBarItem(
               icon: Icon(

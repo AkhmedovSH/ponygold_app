@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:PonyGold/globals.dart' as globals;
@@ -22,6 +23,7 @@ class _IntroState extends State<Intro> {
   getLang() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     globals.checkLength(3);
+    setState(() {});
     prefs.getString('access_token');
     setState(() {
       lang = prefs.getString('lang');

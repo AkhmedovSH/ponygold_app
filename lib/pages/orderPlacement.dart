@@ -5,9 +5,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:PonyGold/globals.dart' as globals;
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart' as geolocator;
+import 'package:flutter/services.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:google_maps_place_picker/google_maps_place_picker.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class OrderPlacement extends StatefulWidget {
   OrderPlacement({Key? key}) : super(key: key);
@@ -17,6 +21,7 @@ class OrderPlacement extends StatefulWidget {
 }
 
 class _OrderPlacementState extends State<OrderPlacement> {
+  final _formKey = GlobalKey<FormState>();
   dynamic plasticCard = false;
   dynamic payme = false;
   dynamic cash = true;
@@ -27,7 +32,10 @@ class _OrderPlacementState extends State<OrderPlacement> {
   dynamic city = {};
   dynamic user = {};
   String address = '';
+  var maskFormatter = new MaskTextInputFormatter(
+      mask: '+### (##) ### ## ##', filter: {"#": RegExp(r'[0-9]')});
   bool error = true;
+  dynamic initialPosition = LatLng(0, 0);
 
   @override
   void initState() {
@@ -39,6 +47,27 @@ class _OrderPlacementState extends State<OrderPlacement> {
     geolocator.Position position =
         await geolocator.Geolocator.getCurrentPosition(
             desiredAccuracy: geolocator.LocationAccuracy.high);
+    setState(() {
+      initialPosition = LatLng(position.latitude, position.longitude);
+    });
+
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(builder: (context) {
+    //     return PlacePicker(
+    //       apiKey: 'AIzaSyC03ntzp6mTIIl_m0sLBSBaH9OEhcITh2A',
+    //       initialPosition: initialPosition,
+    //       useCurrentLocation: true,
+    //       selectInitialPosition: true,
+    //       //usePlaceDetailSearch: true,
+    //       onPlacePicked: (result) {
+    //         print(result);
+    //         Navigator.of(context).pop();
+    //         setState(() {});
+    //       },
+    //     );
+    //   }),
+    // );
     Get.toNamed("/google-map",
         arguments: [position.latitude, position.longitude]);
   }
@@ -71,7 +100,8 @@ class _OrderPlacementState extends State<OrderPlacement> {
         },
         context);
     prefs.remove('basket');
-    globals.checkLength(3);
+    await globals.checkLength(3);
+    setState(() {});
     Navigator.pushNamedAndRemoveUntil(context, '/orders', (route) => false);
   }
 
@@ -142,104 +172,141 @@ class _OrderPlacementState extends State<OrderPlacement> {
                 // Icon(Icons.crop_square),
               ],
             ),
-            Container(
-              margin: EdgeInsets.fromLTRB(20, 0, 20, 20),
-              child: TextField(
-                onChanged: (value) {
-                  setState(() {
-                    address = value;
-                  });
-                },
-                decoration: InputDecoration(
-                    enabledBorder: const OutlineInputBorder(
-                      borderSide: const BorderSide(
-                          color: Color(0xFFECECEC), width: 1.0),
-                    ),
-                    contentPadding: EdgeInsets.all(15.0),
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.red, width: 2),
-                        borderRadius: BorderRadius.circular(5.0)),
-                    hintText: 'Район, улица, дом, квартира, ориентир',
-                    hintStyle: TextStyle(color: Colors.black),
-                    fillColor: Colors.white,
-                    filled: true),
-              ),
-            ),
-            Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.fromLTRB(20, 0, 0, 15),
-                  child: Icon(
-                    Icons.location_on,
-                    color: globals.blue,
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    _getCurrentLocation();
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                    ),
-                    margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                    child: Text(
-                      'Добавить геолокацию',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: globals.blue,
+            Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.fromLTRB(20, 0, 20, 20),
+                      child: TextFormField(
+                        onChanged: (value) {
+                          setState(() {
+                            address = value;
+                          });
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Обязательное поле';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                            enabledBorder: const OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Color(0xFFECECEC), width: 1.0),
+                            ),
+                            contentPadding: EdgeInsets.all(15.0),
+                            border: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.red, width: 2),
+                                borderRadius: BorderRadius.circular(5.0)),
+                            hintText: 'Район, улица, дом, квартира, ориентир',
+                            hintStyle: TextStyle(color: Colors.black),
+                            fillColor: Colors.white,
+                            filled: true),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                  child: Icon(
-                    Icons.arrow_forward_ios,
-                    color: globals.blue,
-                    size: 16,
-                  ),
-                ),
-              ],
-            ),
-            Container(
-              margin: EdgeInsets.fromLTRB(20, 0, 20, 15),
-              child: TextField(
-                decoration: InputDecoration(
-                    enabledBorder: const OutlineInputBorder(
-                      borderSide: const BorderSide(
-                          color: Color(0xFFECECEC), width: 1.0),
+                    Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.fromLTRB(20, 0, 0, 15),
+                          child: Icon(
+                            Icons.location_on,
+                            color: globals.blue,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            _getCurrentLocation();
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
+                            ),
+                            margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                            child: Text(
+                              'Добавить геолокацию',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: globals.blue,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                          child: Icon(
+                            Icons.arrow_forward_ios,
+                            color: globals.blue,
+                            size: 16,
+                          ),
+                        ),
+                      ],
                     ),
-                    contentPadding: EdgeInsets.all(20.0),
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.red, width: 2),
-                        borderRadius: BorderRadius.circular(5.0)),
-                    hintText: 'Контактное лицо',
-                    hintStyle: TextStyle(color: Colors.black),
-                    fillColor: Colors.white,
-                    filled: true),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.fromLTRB(20, 0, 20, 20),
-              child: TextField(
-                decoration: InputDecoration(
-                    enabledBorder: const OutlineInputBorder(
-                      borderSide: const BorderSide(
-                          color: Color(0xFFECECEC), width: 1.0),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(20, 0, 20, 15),
+                      child: TextFormField(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Обязательное поле';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                            enabledBorder: const OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Color(0xFFECECEC), width: 1.0),
+                            ),
+                            contentPadding: EdgeInsets.all(20.0),
+                            border: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.red, width: 2),
+                                borderRadius: BorderRadius.circular(5.0)),
+                            hintText: 'Контактное лицо',
+                            hintStyle: TextStyle(color: Colors.black),
+                            fillColor: Colors.white,
+                            filled: true),
+                      ),
                     ),
-                    contentPadding: EdgeInsets.all(20.0),
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.red, width: 2),
-                        borderRadius: BorderRadius.circular(5.0)),
-                    hintText: 'Номер телефона',
-                    hintStyle: TextStyle(color: Colors.black),
-                    fillColor: Colors.white,
-                    filled: true),
-              ),
-            ),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(20, 0, 20, 20),
+                      child: TextFormField(
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(19),
+                          maskFormatter
+                        ],
+                        scrollPadding: EdgeInsets.only(bottom: 50),
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Обязательное поле';
+                          }
+                          if (value.length < 9) {
+                            return 'Минимум 9 символов';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                            enabledBorder: const OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Color(0xFFECECEC), width: 1.0),
+                            ),
+                            contentPadding: EdgeInsets.all(20.0),
+                            border: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.red, width: 2),
+                                borderRadius: BorderRadius.circular(5.0)),
+                            hintText: 'Номер телефона',
+                            hintStyle: TextStyle(color: Colors.black),
+                            fillColor: Colors.white,
+                            filled: true),
+                      ),
+                    ),
+                  ],
+                )),
             Container(
               margin: EdgeInsets.fromLTRB(20, 0, 20, 20),
               child: Text(
@@ -483,7 +550,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
                           width: double.infinity,
                           margin: EdgeInsets.only(left: 15, bottom: 15),
                           child: Text(
-                            basket[i]['name_uz'],
+                            basket[i]['name_' + globals.lang],
                             style: TextStyle(
                                 color: Color(0xFF313131),
                                 fontSize: 16,
@@ -526,7 +593,9 @@ class _OrderPlacementState extends State<OrderPlacement> {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(primary: globals.blue),
           onPressed: () {
-            createOrder();
+            if (_formKey.currentState!.validate()) {
+              createOrder();
+            }
           },
           child: Container(
             margin: EdgeInsets.only(right: 8),

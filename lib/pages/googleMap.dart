@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:PonyGold/globals.dart' as globals;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+
 class MapSample extends StatefulWidget {
   @override
   State<MapSample> createState() => MapSampleState();
@@ -37,7 +38,7 @@ class MapSampleState extends State<MapSample> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text("Корзина"),
           centerTitle: true,

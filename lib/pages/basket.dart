@@ -229,7 +229,7 @@ class _BasketState extends State<Basket> {
                                         children: [
                                           Container(
                                             child: Text(
-                                              basket[i]['name_uz'],
+                                              basket[i]['name_'+ globals.lang],
                                               style: basket[i]['available'] ==
                                                       '1'
                                                   ? TextStyle(

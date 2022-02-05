@@ -103,9 +103,7 @@ class _DetailState extends State<Detail> {
       prefs.setStringList('basket', basket);
     }
     globals.checkLength(1);
-    setState(() {
-      bottomBar = globals.bottomBar;
-    });
+    setState(() {});
     Get.snackbar('Успешно', 'Продукт добавлен в корзину',
         colorText: Color(0xFFFFFFFF),
         onTap: (_) => print(_),
@@ -163,7 +161,7 @@ class _DetailState extends State<Detail> {
                     margin: EdgeInsets.only(top: 40),
                     padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
                     child: Text(
-                      product['name_uz'],
+                      product['name_' + globals.lang],
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -252,7 +250,9 @@ class _DetailState extends State<Detail> {
                 ),
               ),
             ),
-      bottomNavigationBar: BottomBar(active: 0,),
+      bottomNavigationBar: BottomBar(
+        active: 0,
+      ),
     );
   }
 }

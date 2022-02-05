@@ -152,22 +152,14 @@ class _CategoriesState extends State<Categories> {
                           Get.toNamed('/detail', arguments: products[i]['id']);
                         },
                         child: new Container(
-                          height: 260,
+                          // height: 260,
                           // padding: EdgeInsets.all(8),
                           // margin: EdgeInsets.fromLTRB(
                           //     0, 10, i % 2 == 0 ? 10 : 0, 10),
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             color: Colors.white,
-                            border: Border(
-                              top: BorderSide(
-                                  width: 1.0, color: Color(0xFFECECEC)),
-                              left: BorderSide(
-                                  width: 1.0, color: Color(0xFFECECEC)),
-                              right: BorderSide(
-                                  width: 1.0, color: Color(0xFFECECEC)),
-                              bottom: BorderSide(
-                                  width: 1.0, color: Color(0xFFECECEC)),
-                            ),
+                            border:
+                                Border.all(width: 1, color: Color(0xFFECECEC)),
                             borderRadius:
                                 BorderRadius.all(Radius.circular(5.0)),
                           ),

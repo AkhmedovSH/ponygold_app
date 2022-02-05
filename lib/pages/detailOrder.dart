@@ -166,7 +166,7 @@ class _DetailOrderState extends State<DetailOrder> {
                           width: double.infinity,
                           // margin: EdgeInsets.only(left: 15, bottom: 15),
                           child: Text(
-                            order['order_products'][i]['name_uz'],
+                            order['order_products'][i]['name_' + globals.lang],
                             style: TextStyle(
                                 color: Color(0xFF313131),
                                 fontSize: 16,
