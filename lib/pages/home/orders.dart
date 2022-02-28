@@ -89,8 +89,7 @@ class _OrdersState extends State<Orders> {
                           for (var i = 0; i < orders.length; i++)
                             GestureDetector(
                               onTap: () {
-                                Get.toNamed("/detail-order",
-                                    arguments: orders[i]);
+                                Get.toNamed("/detail-order", arguments: orders[i]);
                               },
                               child: Container(
                                   height: 120,
@@ -99,32 +98,24 @@ class _OrdersState extends State<Orders> {
                                   padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
                                   decoration: BoxDecoration(
                                       color: Colors.white,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5.0)),
-                                      border:
-                                          Border.all(color: Color(0xFFECECEC))),
+                                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                      border: Border.all(color: Color(0xFFECECEC))),
                                   child: Stack(
                                     children: [
                                       Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Container(
                                             margin: EdgeInsets.only(bottom: 5),
                                             child: Text(
                                               'Заказ №${orders[i]['id']}',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16),
+                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                                             ),
                                           ),
                                           Container(
                                             child: Text(
-                                              globals.formatDate(
-                                                  orders[i]['created_at']),
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Color(0xFF747474)),
+                                              globals.formatDate(orders[i]['created_at']),
+                                              style: TextStyle(fontSize: 16, color: Color(0xFF747474)),
                                             ),
                                           ),
                                         ],
@@ -142,13 +133,8 @@ class _OrdersState extends State<Orders> {
                                           bottom: 4,
                                           child: Container(
                                               child: Text(
-                                            globals.formatMoney(orders[i]
-                                                        ['total_amount']
-                                                    .toString()) +
-                                                ' сум',
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold),
+                                            globals.formatMoney(orders[i]['total_amount'].toString()) + ' сум',
+                                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                                           ))),
                                       Positioned(
                                           right: 5,
@@ -156,28 +142,18 @@ class _OrdersState extends State<Orders> {
                                           child: Row(
                                             children: [
                                               Container(
-                                                margin:
-                                                    EdgeInsets.only(right: 5),
+                                                margin: EdgeInsets.only(right: 5),
                                                 width: 5,
                                                 height: 5,
                                                 decoration: BoxDecoration(
-                                                  color: Color(orders[i]
-                                                      ['status_color']),
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(5.0)),
+                                                  color: Color(orders[i]['status_color']),
+                                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
                                                 ),
                                               ),
                                               Container(
                                                   child: Text(
-                                                orders[i]['status_text']
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    color: Color(orders[i]
-                                                        ['status_color']),
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                                orders[i]['status_text'].toString(),
+                                                style: TextStyle(color: Color(orders[i]['status_color']), fontSize: 18, fontWeight: FontWeight.bold),
                                               ))
                                             ],
                                           ))

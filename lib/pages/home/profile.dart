@@ -81,20 +81,14 @@ class _ProfileState extends State<Profile> {
                           margin: EdgeInsets.only(bottom: 5),
                           child: Text(
                             user['name'],
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Color(0xFF3133131),
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(fontSize: 20, color: Color(0xFF3133131), fontWeight: FontWeight.bold),
                           ),
                         ),
                         Container(
                           margin: EdgeInsets.only(bottom: 20),
                           child: Text(
                             'ID: ${user['id']}',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Color(0xFF747474),
-                                fontWeight: FontWeight.w500),
+                            style: TextStyle(fontSize: 16, color: Color(0xFF747474), fontWeight: FontWeight.w500),
                           ),
                         ),
                         Row(
@@ -104,18 +98,14 @@ class _ProfileState extends State<Profile> {
                               margin: EdgeInsets.only(bottom: 8, right: 5),
                               child: Text(
                                 'Pony Gold:',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                               ),
                             ),
                             Container(
                               margin: EdgeInsets.only(bottom: 8, right: 5),
                               child: Text(
                                 user['pony_golds'],
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFF313131)),
+                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF313131)),
                               ),
                             ),
                             Container(
@@ -128,10 +118,7 @@ class _ProfileState extends State<Profile> {
                           margin: EdgeInsets.only(bottom: 20),
                           child: Text(
                             'Купоны: ${user['pony_game_chances']}',
-                            style: TextStyle(
-                                color: globals.blue,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(color: globals.blue, fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                         ),
                       ]),
@@ -139,23 +126,18 @@ class _ProfileState extends State<Profile> {
                     Container(
                       margin: EdgeInsets.only(right: 18, left: 18, bottom: 35),
                       padding: EdgeInsets.only(bottom: 15),
-                      decoration: BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(color: Color(0xFFECECEC)))),
+                      decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFECECEC)))),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
                             child: Text(
                               'Номер телефона: ',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                             ),
                           ),
                           Container(
-                            child: Text(globals.formatPhone(user['phone']),
-                                style: TextStyle(
-                                    fontSize: 16, color: Color(0xFF747474))),
+                            child: Text(globals.formatPhone(user['phone']), style: TextStyle(fontSize: 16, color: Color(0xFF747474))),
                           ),
                         ],
                       ),
@@ -163,24 +145,21 @@ class _ProfileState extends State<Profile> {
                     Container(
                       width: double.infinity,
                       margin: EdgeInsets.only(left: 15, right: 15),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xFFECECEC))),
+                      decoration: BoxDecoration(border: Border.all(color: Color(0xFFECECEC))),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
                             width: double.infinity,
-                            padding:
-                                EdgeInsets.only(top: 15, left: 15, bottom: 15),
-                            decoration: BoxDecoration(
-                                border: Border(
-                                    bottom:
-                                        BorderSide(color: Color(0xFFECECEC)))),
+                            alignment: Alignment.centerLeft,
+                            padding: EdgeInsets.only(
+                              left: 15,
+                            ),
+                            decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFECECEC)))),
                             height: 60,
                             child: Text(
                               'Публичная оферта',
-                              style: TextStyle(
-                                  fontSize: 18, color: Color(0xFF747474)),
+                              style: TextStyle(fontSize: 18, color: Color(0xFF747474)),
                             ),
                           ),
                           GestureDetector(
@@ -189,29 +168,26 @@ class _ProfileState extends State<Profile> {
                             },
                             child: Container(
                               width: double.infinity,
-                              decoration: BoxDecoration(
-                                  border: Border(
-                                      bottom: BorderSide(
-                                          color: Color(0xFFECECEC)))),
+                              decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFECECEC)))),
                               height: 60,
+                              alignment: Alignment.centerLeft,
                               padding: EdgeInsets.only(
-                                  top: 15, left: 15, bottom: 15),
+                                left: 15,
+                              ),
                               child: Text(
                                 'Начать игру',
-                                style: TextStyle(
-                                    fontSize: 18, color: Color(0xFFF3B231)),
+                                style: TextStyle(fontSize: 18, color: Color(0xFFF3B231)),
                               ),
                             ),
                           ),
                           Container(
                               width: double.infinity,
-                              decoration: BoxDecoration(
-                                  border: Border(
-                                      bottom: BorderSide(
-                                          color: Color(0xFFECECEC)))),
+                              decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFECECEC)))),
                               height: 60,
+                              alignment: Alignment.centerLeft,
                               padding: EdgeInsets.only(
-                                  top: 15, left: 15, bottom: 15),
+                                left: 15,
+                              ),
                               child: GestureDetector(
                                 onTap: () {
                                   signOut();
@@ -224,9 +200,7 @@ class _ProfileState extends State<Profile> {
                                     ),
                                     Text(
                                       'Выйти из аккаунта',
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          color: Color(0xFFEB6465)),
+                                      style: TextStyle(fontSize: 18, color: Color(0xFFEB6465)),
                                     ),
                                   ],
                                 ),
@@ -239,8 +213,7 @@ class _ProfileState extends State<Profile> {
                         margin: EdgeInsets.only(top: 30),
                         child: Text(
                           'Служба поддержки: +998 99 314 42 63',
-                          style:
-                              TextStyle(fontSize: 16, color: Color(0xFF313131)),
+                          style: TextStyle(fontSize: 16, color: Color(0xFF313131)),
                         ),
                       ),
                     )

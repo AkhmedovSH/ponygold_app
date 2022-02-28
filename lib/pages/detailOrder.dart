@@ -20,8 +20,7 @@ class _DetailOrderState extends State<DetailOrder> {
     super.initState();
     setState(() {
       order = Get.arguments;
-      totalAmount =
-          int.parse(order['total_amount']) + int.parse(order['delivery_price']);
+      totalAmount = int.parse(order['total_amount']) + int.parse(order['delivery_price']);
     });
   }
 
@@ -43,10 +42,7 @@ class _DetailOrderState extends State<DetailOrder> {
               margin: EdgeInsets.only(bottom: 5),
               child: Text(
                 'Заказ№${order['id']}',
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF313131)),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF313131)),
               ),
             ),
             Container(
@@ -61,34 +57,23 @@ class _DetailOrderState extends State<DetailOrder> {
                 Container(
                   margin: EdgeInsets.only(bottom: 5),
                   child: Text(
-                    order['courier_id'] == '0'
-                        ? 'Курьер не назначен   '
-                        : 'Курьер: ',
+                    order['courier_id'] == '0' ? 'Курьер не назначен   ' : 'Курьер: ',
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
                 Container(
                     margin: EdgeInsets.only(bottom: 5),
                     child: Text(
-                      order['courier_id'] == '0'
-                          ? ''
-                          : order['courier']['name'] +
-                              ' ' +
-                              order['courier']['surname'],
-                      style: TextStyle(
-                          color: Color(0xFF747474),
-                          fontWeight: FontWeight.bold),
+                      order['courier_id'] == '0' ? '' : order['courier']['name'] + ' ' + order['courier']['surname'],
+                      style: TextStyle(color: Color(0xFF747474), fontWeight: FontWeight.bold),
                     )),
               ],
             ),
             Container(
               margin: EdgeInsets.only(bottom: 13),
               child: Text(
-                order['courier_id'] != '0'
-                    ? globals.formatPhone(order['courier']['phone'])
-                    : '',
-                style: TextStyle(
-                    color: Color(0xFF747474), fontWeight: FontWeight.bold),
+                order['courier_id'] != '0' ? globals.formatPhone(order['courier']['phone']) : '',
+                style: TextStyle(color: Color(0xFF747474), fontWeight: FontWeight.bold),
               ),
             ),
             Row(children: [
@@ -127,9 +112,7 @@ class _DetailOrderState extends State<DetailOrder> {
                 ),
                 Container(
                   margin: EdgeInsets.only(bottom: 15),
-                  child: Text(
-                      'Товары: ${globals.formatMoney(order['total_amount'])}сум.',
-                      style: TextStyle(fontSize: 16, color: Color(0xFF313131))),
+                  child: Text('Товары: ${globals.formatMoney(order['total_amount'])}сум.', style: TextStyle(fontSize: 16, color: Color(0xFF313131))),
                 )
               ],
             ),
@@ -141,19 +124,14 @@ class _DetailOrderState extends State<DetailOrder> {
                 ),
                 Container(
                   margin: EdgeInsets.only(bottom: 15),
-                  child: Text(
-                      'Доставка: ${globals.formatMoney(order['delivery_price'])}сум.',
-                      style: TextStyle(fontSize: 16, color: Color(0xFF313131))),
+                  child:
+                      Text('Доставка: ${globals.formatMoney(order['delivery_price'])}сум.', style: TextStyle(fontSize: 16, color: Color(0xFF313131))),
                 )
               ],
             ),
             Container(
               margin: EdgeInsets.only(bottom: 15),
-              child: Text('Состав заказа',
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: Color(0xFF313131),
-                      fontWeight: FontWeight.bold)),
+              child: Text('Состав заказа', style: TextStyle(fontSize: 18, color: Color(0xFF313131), fontWeight: FontWeight.bold)),
             ),
             Column(
               children: [
@@ -167,10 +145,7 @@ class _DetailOrderState extends State<DetailOrder> {
                           // margin: EdgeInsets.only(left: 15, bottom: 15),
                           child: Text(
                             order['order_products'][i]['name_' + globals.lang],
-                            style: TextStyle(
-                                color: Color(0xFF313131),
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500),
+                            style: TextStyle(color: Color(0xFF313131), fontSize: 16, fontWeight: FontWeight.w500),
                           ),
                         ),
                       ),
@@ -179,9 +154,7 @@ class _DetailOrderState extends State<DetailOrder> {
                           child: Container(
                             margin: EdgeInsets.only(right: 15, bottom: 10),
                             child: Text(
-                              'x' +
-                                  order['order_products'][i]['quantity']
-                                      .toString(),
+                              'x' + order['order_products'][i]['quantity'].toString(),
                               style: TextStyle(
                                 fontSize: 16,
                                 color: Color(
@@ -195,16 +168,14 @@ class _DetailOrderState extends State<DetailOrder> {
               ],
             ),
             Padding(padding: EdgeInsets.only(top: 15)),
-            Text(
-                'Сумма заказа: ${globals.formatMoney(totalAmount.toString())} сум',
-                style: TextStyle(
-                    fontSize: 18,
-                    color: Color(0xFF313131),
-                    fontWeight: FontWeight.bold))
+            Text('Сумма заказа: ${globals.formatMoney(totalAmount.toString())} сум',
+                style: TextStyle(fontSize: 18, color: Color(0xFF313131), fontWeight: FontWeight.bold))
           ],
         ),
       )),
-      bottomNavigationBar: BottomBar(active: 2,),
+      bottomNavigationBar: BottomBar(
+        active: 2,
+      ),
     );
   }
 }

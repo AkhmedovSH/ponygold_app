@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:get/get.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Detail extends StatefulWidget {
@@ -20,6 +21,9 @@ class _DetailState extends State<Detail> {
   dynamic responseBody = {};
   bool loading = false;
   dynamic bottomBar = globals.bottomBar;
+  CarouselController buttonCarouselController = CarouselController();
+  int _current = 0;
+  dynamic images = [];
 
   @override
   void initState() {
@@ -31,16 +35,14 @@ class _DetailState extends State<Detail> {
   }
 
   getProduct() async {
-    final response = await http.get(
-        Uri.parse('https://ponygold.uz/api/client/product/${Get.arguments}'));
+    final response = await http.get(Uri.parse('https://ponygold.uz/api/client/product/${Get.arguments}'));
     if (response.statusCode == 200) {
       final responseJson = await jsonDecode(response.body);
-      responseJson['discount_price'] = int.parse(responseJson['price']) -
-          (int.parse(responseJson['price']) *
-                  int.parse(responseJson['discount'])) /
-              100;
+      responseJson['discount_price'] =
+          int.parse(responseJson['price']) - (int.parse(responseJson['price']) * int.parse(responseJson['discount'])) / 100;
       responseJson['discount_price'] = responseJson['discount_price'].round();
       setState(() {
+        images = responseJson['images'].split(';');
         responseBody = response.body;
         product = responseJson;
         loading = false;
@@ -67,8 +69,7 @@ class _DetailState extends State<Detail> {
       //     responseBody['category']['main_id']);
       if (basket.length > 0) {
         var basketDecode = jsonDecode(basket[0]);
-        if (basketDecode['category']['main_id'] !=
-            product['category']['main_id']) {
+        if (basketDecode['category']['main_id'] != product['category']['main_id']) {
           return Get.snackbar('Ошибка', 'Выберите другой продукт',
               colorText: Color(0xFFFFFFFF),
               onTap: (_) => print('DADA'),
@@ -102,7 +103,7 @@ class _DetailState extends State<Detail> {
       }
       prefs.setStringList('basket', basket);
     }
-    globals.checkLength(1);
+    await globals.checkLength(1);
     setState(() {});
     Get.snackbar('Успешно', 'Продукт добавлен в корзину',
         colorText: Color(0xFFFFFFFF),
@@ -145,28 +146,58 @@ class _DetailState extends State<Detail> {
                   //     ),
                   //   ),
                   // ),
-                  Container(
-                      decoration: new BoxDecoration(
-                        color: Colors.white,
-                      ),
+                  CarouselSlider(
+                    carouselController: buttonCarouselController,
+                    items: [
+                      for (var i = 0; i < images.length; i++)
+                        Container(
+                          child: Image.network('${globals.urlProducts + images[i]}', width: double.infinity, fit: BoxFit.cover),
+                        )
+                    ],
+                    options: new CarouselOptions(
                       height: 300,
-                      child: Center(
-                        child: Image.network(
-                            'https://ponygold.uz/uploads/products/' +
-                                product['image'],
-                            // width: double.infinity,
-                            fit: BoxFit.fill),
-                      )),
+                      enlargeCenterPage: true,
+                      aspectRatio: 16 / 9,
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                      enableInfiniteScroll: true,
+                      viewportFraction: 0.8,
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          _current = index;
+                        });
+                      },
+                    ),
+                  ),
+                  // Container(
+                  //     decoration: new BoxDecoration(
+                  //       color: Colors.white,
+                  //     ),
+                  //     height: 300,
+                  //     child: Center(
+                  //       child: Image.network('https://ponygold.uz/uploads/products/' + product['image'],
+                  //           // width: double.infinity,
+                  //           fit: BoxFit.fill),
+                  //     )),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    for (var i = 0; i < images.length; i++)
+                      GestureDetector(
+                        onTap: () {
+                          buttonCarouselController.animateToPage(i);
+                        },
+                        child: Container(
+                          width: 12.0,
+                          height: 12.0,
+                          margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 4.0),
+                          decoration: BoxDecoration(shape: BoxShape.circle, color: _current == i ? globals.blue : Color(0xFFE1E1E1)),
+                        ),
+                      )
+                  ]),
                   Container(
                     margin: EdgeInsets.only(top: 40),
                     padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
                     child: Text(
                       product['name_' + globals.lang],
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF313131),
-                          fontFamily: 'ProDisplay'),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF313131), fontFamily: 'ProDisplay'),
                     ),
                   ),
                   Container(
@@ -186,37 +217,24 @@ class _DetailState extends State<Detail> {
                   Container(
                     padding: EdgeInsets.fromLTRB(16, 5, 16, 0),
                     child: Text(
-                      globals
-                              .formatMoney(product['discount_price'].toString())
-                              .toString() +
-                          'сум.',
+                      globals.formatMoney(product['discount_price'].toString()).toString() + 'сум.',
                       style: TextStyle(
-                          fontSize: 18,
-                          color: globals.blue,
-                          fontWeight: FontWeight.bold,
-                          fontStyle: FontStyle.normal,
-                          fontFamily: 'ProDisplay'),
+                          fontSize: 18, color: globals.blue, fontWeight: FontWeight.bold, fontStyle: FontStyle.normal, fontFamily: 'ProDisplay'),
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.fromLTRB(16, 5, 16, 0),
+                    padding: EdgeInsets.fromLTRB(16, 5, 16, 10),
                     child: Text(
                       globals.formatMoney(product['price']),
-                      style: TextStyle(
-                          fontSize: 16,
-                          decoration: TextDecoration.lineThrough,
-                          color: Color(0xFF747474)),
+                      style: TextStyle(fontSize: 16, decoration: TextDecoration.lineThrough, color: Color(0xFF747474)),
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(bottom: 70),
+                    margin: EdgeInsets.only(bottom: 80),
                     padding: EdgeInsets.fromLTRB(16, 5, 16, 0),
                     child: Text(
                       product['description_uz'],
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Color(0xFF747474),
-                          letterSpacing: 0.06),
+                      style: TextStyle(fontSize: 18, color: Color(0xFF747474), letterSpacing: 0.06),
                     ),
                   ),
                 ],

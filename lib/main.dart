@@ -1,3 +1,4 @@
+import 'package:PonyGold/pages/home/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:PonyGold/globals.dart' as globals;
 // Pages
 
-import 'package:PonyGold/pages/index.dart';
+import 'package:PonyGold/pages/home/index.dart';
 import 'package:PonyGold/pages/auth/language.dart';
 import 'package:PonyGold/pages/auth/login.dart';
 import 'package:PonyGold/pages/auth/passwordRecoveryGet.dart';
@@ -18,11 +19,11 @@ import 'package:PonyGold/pages/intro.dart';
 import 'package:PonyGold/pages/detail.dart';
 import 'package:PonyGold/pages/category/categories.dart';
 import 'package:PonyGold/pages/category/filter.dart';
-import 'package:PonyGold/pages/profile.dart';
-import 'package:PonyGold/pages/basket.dart';
+import 'package:PonyGold/pages/home/profile.dart';
+import 'package:PonyGold/pages/home/basket.dart';
 import 'package:PonyGold/pages/orderPlacement.dart';
 import 'package:PonyGold/pages/googleMap.dart';
-import 'package:PonyGold/pages/orders.dart';
+import 'package:PonyGold/pages/home/orders.dart';
 import 'package:PonyGold/pages/detailOrder.dart';
 import 'package:PonyGold/pages/search.dart';
 import 'package:PonyGold/pages/game.dart';
@@ -60,9 +61,7 @@ void main() async {
           ),
         ),
         fontFamily: 'ProDisplay',
-        textTheme: ThemeData.light()
-            .textTheme
-            .copyWith(headline6: TextStyle(fontFamily: 'ProDisplay'))),
+        textTheme: ThemeData.light().textTheme.copyWith(headline6: TextStyle(fontFamily: 'ProDisplay'))),
     initialRoute: '/intro',
     onGenerateRoute: RouteGenerator.generateRoute,
     // routes: {
@@ -93,6 +92,12 @@ class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // print(settings.name);
     switch (settings.name) {
+      case '/dashboard':
+        return GetPageRoute(
+          settings: settings,
+          page: () => Dashboard(),
+          transition: Transition.rightToLeft,
+        );
       case '/order-placement':
         return GetPageRoute(
           settings: settings,

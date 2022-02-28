@@ -86,7 +86,7 @@ class _LoginState extends State<Login> {
                           },
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            hintText: '+998 (99) 999 99 99',
+                            hintText: '+998',
                             // prefixIcon: Padding(
                             //   padding: EdgeInsets.only(left: 10, bottom: 2),
                             //   child: Text(
@@ -182,7 +182,7 @@ class _LoginState extends State<Login> {
                         child: Text('Регистрация',
                             style: TextStyle(
                                 fontSize: 20,
-                                color: Colors.greenAccent[400],
+                                color: globals.blue,
                                 fontWeight: FontWeight.w600))),
                   ),
                 ],

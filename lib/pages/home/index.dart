@@ -48,9 +48,7 @@ class _IndexState extends State<Index> {
     // print(scrollController.position.maxScrollExtent);
     // print(!scrollController.position.outOfRange);
 
-    if (scrollController.offset >=
-            scrollController.position.maxScrollExtent - 2 &&
-        !scrollController.position.outOfRange) {
+    if (scrollController.offset >= scrollController.position.maxScrollExtent - 2 && !scrollController.position.outOfRange) {
       getNextProducts();
       // if (widget.usersProvider.hasNext) {
       //   widget.usersProvider.fetchNextUsers();
@@ -63,8 +61,7 @@ class _IndexState extends State<Index> {
       pageLoading = true;
     });
 
-    final response = await http.get(
-        Uri.parse('https://ponygold.uz/api/client/products?page=${page + 1}'));
+    final response = await http.get(Uri.parse('https://ponygold.uz/api/client/products?page=${page + 1}'));
     final responseJson = jsonDecode(response.body);
     if (response.statusCode == 200) {
       setState(() {
@@ -78,14 +75,12 @@ class _IndexState extends State<Index> {
   }
 
   getProducts() async {
-    final response =
-        await http.get(Uri.parse('https://ponygold.uz/api/client/products'));
+    final response = await http.get(Uri.parse('https://ponygold.uz/api/client/products'));
     SharedPreferences prefs = await SharedPreferences.getInstance();
     dynamic responseCategories = categories;
     dynamic responseJsonCategories = {};
     if (prefs.getString('mainCategories') == null) {
-      responseCategories = await http
-          .get(Uri.parse('https://ponygold.uz/api/client/main-categories'));
+      responseCategories = await http.get(Uri.parse('https://ponygold.uz/api/client/main-categories'));
       prefs.setString('mainCategories', responseCategories.body);
       responseJsonCategories = jsonDecode(responseCategories.body);
     } else {
@@ -99,12 +94,9 @@ class _IndexState extends State<Index> {
       final responseJson = await jsonDecode(response.body);
       for (var i = 0; i < responseJson['data'].length; i++) {
         responseJson['data'][i]['discount_price'] = 0;
-        responseJson['data'][i]['discount_price'] =
-            (int.parse(responseJson['data'][i]['price']) -
-                    (int.parse(responseJson['data'][i]['price']) *
-                        int.parse(responseJson['data'][i]['discount']) /
-                        100))
-                .round();
+        responseJson['data'][i]['discount_price'] = (int.parse(responseJson['data'][i]['price']) -
+                (int.parse(responseJson['data'][i]['price']) * int.parse(responseJson['data'][i]['discount']) / 100))
+            .round();
       }
       if (!mounted) return;
       setState(() {
@@ -118,8 +110,7 @@ class _IndexState extends State<Index> {
   onSearch() async {
     if (_controller.text.length >= 3) {
       globals.loading = false;
-      final response = await http.get(Uri.parse(
-          'https://ponygold.uz/api/client/search-products?name=${_controller.text}'));
+      final response = await http.get(Uri.parse('https://ponygold.uz/api/client/search-products?name=${_controller.text}'));
       final responseJson = jsonDecode(response.body);
       globals.loading = true;
     }
@@ -160,8 +151,7 @@ class _IndexState extends State<Index> {
                     margin: EdgeInsets.fromLTRB(20, 20, 0, 20),
                     child: Text(
                       AppLocalizations.of(context)!.categories,
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
                     ),
                   ),
                   SingleChildScrollView(
@@ -171,30 +161,27 @@ class _IndexState extends State<Index> {
                         for (var i = 0; i < categories.length; i++)
                           GestureDetector(
                             onTap: () {
-                              Get.toNamed("/categories",
-                                  arguments: categories[i]['id']);
+                              Get.toNamed("/categories", arguments: categories[i]['id']);
                             },
                             child: Container(
                                 width: 144,
                                 margin: EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: EdgeInsets.symmetric(vertical: 12),
                                 decoration: BoxDecoration(
                                   color: Color(0xFFF4F7FA),
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                                 child: Column(
                                   children: [
-                                    Padding(padding: EdgeInsets.only(top: 10)),
                                     Image.network(
-                                      'https://ponygold.uz/uploads/categories/' +
-                                          categories[i]['image_mobile'],
+                                      'https://ponygold.uz/uploads/categories/' + categories[i]['image_mobile'],
                                       height: 80,
                                       width: double.infinity,
                                     ),
                                     Padding(padding: EdgeInsets.only(top: 10)),
                                     Text(
                                       categories[i]['name_' + globals.lang],
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w700),
+                                      style: TextStyle(fontWeight: FontWeight.w700),
                                     )
                                   ],
                                 )),
@@ -206,8 +193,7 @@ class _IndexState extends State<Index> {
                     margin: EdgeInsets.fromLTRB(20, 20, 0, 20),
                     child: Text(
                       AppLocalizations.of(context)!.recommended,
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
                     ),
                   ),
                   Container(
@@ -216,12 +202,11 @@ class _IndexState extends State<Index> {
                       items: [
                         for (var i = 0; i < categories.length; i++)
                           Container(
-                            child: Image.asset('images/banner.png',
-                                width: double.infinity, fit: BoxFit.fill),
+                            child: Image.asset('images/banner.png', width: double.infinity, fit: BoxFit.cover),
                           )
                       ],
                       options: new CarouselOptions(
-                        height: 150.0,
+                        height: 144.0,
                         enlargeCenterPage: true,
                         autoPlay: true,
                         aspectRatio: 16 / 9,
@@ -246,13 +231,8 @@ class _IndexState extends State<Index> {
                         child: Container(
                           width: 12.0,
                           height: 12.0,
-                          margin: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 4.0),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: _current == i
-                                  ? globals.blue
-                                  : Color(0xFFE1E1E1)),
+                          margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 4.0),
+                          decoration: BoxDecoration(shape: BoxShape.circle, color: _current == i ? globals.blue : Color(0xFFE1E1E1)),
                         ),
                       )
                   ]),
@@ -272,25 +252,19 @@ class _IndexState extends State<Index> {
                               for (int i = 0; i < products.length; i++)
                                 GestureDetector(
                                   onTap: () {
-                                    Get.toNamed('/detail',
-                                        arguments: products[i]['id']);
+                                    Get.toNamed('/detail', arguments: products[i]['id']);
                                   },
                                   child: Container(
                                     // height: double.infinity,
                                     // height:
                                     //     MediaQuery.of(context).size.height * 0.70,
-                                    width: MediaQuery.of(context).size.width *
-                                        0.47,
+                                    width: MediaQuery.of(context).size.width * 0.47,
                                     // width: width == 392.72727272727275
                                     //     ? 190
                                     //     : width == 411.42857142857144
                                     //         ? 200
                                     //         : 190,
-                                    margin: EdgeInsets.fromLTRB(
-                                        i % 2 == 0 ? 5 : 0,
-                                        10,
-                                        i % 2 == 0 ? 10 : 5,
-                                        10),
+                                    margin: EdgeInsets.fromLTRB(i % 2 == 0 ? 5 : 0, 10, i % 2 == 0 ? 10 : 5, 10),
                                     padding: EdgeInsets.all(0),
                                     decoration: BoxDecoration(
                                       color: Colors.white,
@@ -298,60 +272,38 @@ class _IndexState extends State<Index> {
                                         width: 1,
                                         color: Color(0xFFECECEC),
                                       ),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5.0)),
+                                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
                                     ),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Stack(
                                           children: [
                                             Padding(
                                               padding: EdgeInsets.all(5),
-                                              child: Image.network(
-                                                  'https://ponygold.uz/uploads/products/' +
-                                                      products[i]['image'],
-                                                  height: 140,
-                                                  width: double.infinity,
-                                                  fit: BoxFit.fill),
+                                              child: Image.network('https://ponygold.uz/uploads/products/' + products[i]['image'],
+                                                  height: 140, width: double.infinity, fit: BoxFit.fill),
                                             ),
-                                            int.parse(products[i]
-                                                        ['discount']) !=
-                                                    0
+                                            int.parse(products[i]['discount']) != 0
                                                 ? Container(
                                                     decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.only(
+                                                      borderRadius: BorderRadius.only(
                                                         topLeft: Radius.zero,
-                                                        topRight:
-                                                            Radius.circular(
-                                                                5.0),
+                                                        topRight: Radius.circular(5.0),
                                                         bottomLeft: Radius.zero,
-                                                        bottomRight:
-                                                            Radius.circular(
-                                                                5.0),
+                                                        bottomRight: Radius.circular(5.0),
                                                       ),
                                                       border: Border.all(
                                                         width: 1,
-                                                        color:
-                                                            Color(0xFFEB6465),
-                                                        style:
-                                                            BorderStyle.solid,
+                                                        color: Color(0xFFEB6465),
+                                                        style: BorderStyle.solid,
                                                       ),
                                                       color: Color(0xFFEB6465),
                                                     ),
-                                                    margin: EdgeInsets.only(
-                                                        top: 10),
-                                                    padding:
-                                                        EdgeInsets.fromLTRB(
-                                                            5, 3, 5, 3),
+                                                    margin: EdgeInsets.only(top: 10),
+                                                    padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
                                                     child: Text(
-                                                      '-' +
-                                                          products[i]
-                                                                  ['discount']
-                                                              .toString() +
-                                                          '%',
+                                                      '-' + products[i]['discount'].toString() + '%',
                                                       style: TextStyle(
                                                         color: Colors.white,
                                                       ),
@@ -361,22 +313,17 @@ class _IndexState extends State<Index> {
                                         ),
                                         Container(
                                           padding: EdgeInsets.only(left: 8),
-                                          margin:
-                                              EdgeInsets.fromLTRB(0, 5, 0, 0),
+                                          margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
                                           child: Text(
                                             products[i]['name_' + globals.lang],
                                             overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                                fontFamily: 'ProDisplay',
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                                letterSpacing: 0.12),
+                                            style:
+                                                TextStyle(fontFamily: 'ProDisplay', fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: 0.12),
                                           ),
                                         ),
                                         Container(
                                           padding: EdgeInsets.only(left: 8),
-                                          margin:
-                                              EdgeInsets.fromLTRB(0, 5, 0, 0),
+                                          margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
                                           child: Text(
                                             products[i]['brand']['name'],
                                             style: TextStyle(
@@ -389,34 +336,19 @@ class _IndexState extends State<Index> {
                                         ),
                                         Container(
                                           padding: EdgeInsets.only(left: 8),
-                                          margin:
-                                              EdgeInsets.fromLTRB(0, 5, 0, 0),
+                                          margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
                                           child: Text(
-                                            globals.formatMoney(products[i]
-                                                        ['discount_price']
-                                                    .toString()) +
-                                                'сум.',
-                                            style: TextStyle(
-                                                color: globals.blue,
-                                                fontWeight: FontWeight.bold),
+                                            globals.formatMoney(products[i]['discount_price'].toString()) + 'сум.',
+                                            style: TextStyle(color: globals.blue, fontWeight: FontWeight.bold),
                                           ),
                                         ),
                                         int.parse(products[i]['discount']) != 0
                                             ? Container(
-                                                margin:
-                                                    EdgeInsets.only(bottom: 5),
-                                                padding:
-                                                    EdgeInsets.only(left: 8),
+                                                margin: EdgeInsets.only(bottom: 5),
+                                                padding: EdgeInsets.only(left: 8),
                                                 child: Text(
-                                                  globals
-                                                      .formatMoney(
-                                                          products[i]['price'])
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                      fontSize: 12,
-                                                      color: Color(0xFF747474),
-                                                      decoration: TextDecoration
-                                                          .lineThrough),
+                                                  globals.formatMoney(products[i]['price']).toString(),
+                                                  style: TextStyle(fontSize: 12, color: Color(0xFF747474), decoration: TextDecoration.lineThrough),
                                                 ),
                                               )
                                             : Container(),

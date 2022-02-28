@@ -19,6 +19,8 @@ bool loading = false;
 double latitude = 0.0;
 double longitude = 0.0;
 int id = 1;
+String urlProducts = 'https://ponygold.uz/uploads/products/';
+String urlCategories = 'https://ponygold.uz/uploads/categories/';
 
 Color white = Color(0xFFFFFFFF);
 Color black = Color(0xFF313131);

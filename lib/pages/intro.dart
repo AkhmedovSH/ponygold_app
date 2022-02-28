@@ -32,12 +32,10 @@ class _IntroState extends State<Intro> {
 
     Future.delayed(const Duration(milliseconds: 1000), () {
       if (lang == null) {
-        Navigator.pushNamedAndRemoveUntil(
-            context, '/language', (route) => false);
+        Navigator.pushNamedAndRemoveUntil(context, '/language', (route) => false);
       } else {
         if (accessToken == null) {
-          Navigator.pushNamedAndRemoveUntil(
-              context, '/login', (route) => false);
+          Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
         } else {
           Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
         }

@@ -1,52 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '../globals.dart' as globals;
 
-//ignore: must_be_immutable
-class BottomBar extends StatefulWidget {
-  int? active;
-  bool? basketLength;
-  BottomBar({Key? key, this.active, this.basketLength}) : super(key: key);
+import 'package:PonyGold/globals.dart' as globals;
+
+class BottomNavigation extends StatefulWidget {
+  final Function changeIndex;
+  final int currentIndex;
+  const BottomNavigation({Key? key, required this.changeIndex, required this.currentIndex}) : super(key: key);
 
   @override
-  _BottomBarState createState() => _BottomBarState();
+  _BottomNavigationState createState() => _BottomNavigationState();
 }
 
-class _BottomBarState extends State<BottomBar> {
-  int index = 0;
+class _BottomNavigationState extends State<BottomNavigation> {
   bool basketlength = false;
   bool ordersLength = false;
 
-  onItemTab(int index) {
-    if (index != widget.active) {
-      setState(() {
-        // active = index;
-      });
-      switch (index) {
-        case 0:
-          Get.offAllNamed('/');
-          break;
-        case 1:
-          Get.offAllNamed(
-            '/basket',
-          );
-          break;
-        case 2:
-          Get.offAllNamed('/orders');
-          break;
-        case 3:
-          Get.offAllNamed(
-            '/profile',
-          );
-          break;
-      }
-    }
+  void onSelectMenu(int index) async {
+    widget.changeIndex(index);
   }
 
   @override
   void initState() {
     super.initState();
-    print(widget.basketLength);
     basketlength = globals.basketlength;
     ordersLength = globals.ordersLength;
   }
@@ -69,8 +44,8 @@ class _BottomBarState extends State<BottomBar> {
         type: BottomNavigationBarType.fixed,
         showSelectedLabels: false,
         showUnselectedLabels: false,
-        onTap: onItemTab,
-        currentIndex: widget.active!,
+        onTap: onSelectMenu,
+        currentIndex: widget.currentIndex,
         backgroundColor: globals.white,
         selectedItemColor: globals.blue,
         selectedIconTheme: IconThemeData(color: globals.blue),
@@ -127,31 +102,3 @@ class _BottomBarState extends State<BottomBar> {
         ]);
   }
 }
-
-// BottomNavigationBar(
-//         type: BottomNavigationBarType.fixed,
-//         // showSelectedLabels: false,
-//         // showUnselectedLabels: false,
-//         onTap: onItemTab,
-//         currentIndex: widget.active!,
-//         backgroundColor: globals.white,
-//         selectedItemColor: globals.black,
-        
-//         selectedIconTheme: IconThemeData(color: globals.black),
-//         items: const [
-//           BottomNavigationBarItem(
-//             icon: Icon(
-//               Icons.home,
-//             ),
-//             label: 'Главная'
-//           ),
-//           BottomNavigationBarItem(
-//               icon: Icon(Icons.list_alt, color: Color(0xFF828282)),
-//               label: 'Мои заказы'),
-//           BottomNavigationBarItem(
-//               icon: Icon(Icons.person, color: Color(0xFF828282)),
-//               label: 'Профиль'),
-//           BottomNavigationBarItem(
-//               icon: Icon(Icons.headset_mic, color: Color(0xFF828282)),
-//               label: 'Поддержка'),
-//         ])

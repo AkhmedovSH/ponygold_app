@@ -32,8 +32,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
   dynamic city = {};
   dynamic user = {};
   String address = '';
-  var maskFormatter = new MaskTextInputFormatter(
-      mask: '+### (##) ### ## ##', filter: {"#": RegExp(r'[0-9]')});
+  var maskFormatter = new MaskTextInputFormatter(mask: '+### (##) ### ## ##', filter: {"#": RegExp(r'[0-9]')});
   bool error = true;
   dynamic initialPosition = LatLng(0, 0);
 
@@ -44,9 +43,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
   }
 
   void _getCurrentLocation() async {
-    geolocator.Position position =
-        await geolocator.Geolocator.getCurrentPosition(
-            desiredAccuracy: geolocator.LocationAccuracy.high);
+    geolocator.Position position = await geolocator.Geolocator.getCurrentPosition(desiredAccuracy: geolocator.LocationAccuracy.high);
     setState(() {
       initialPosition = LatLng(position.latitude, position.longitude);
     });
@@ -68,8 +65,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
     //     );
     //   }),
     // );
-    Get.toNamed("/google-map",
-        arguments: [position.latitude, position.longitude]);
+    Get.toNamed("/google-map", arguments: [position.latitude, position.longitude]);
   }
 
   void createOrder() async {
@@ -118,8 +114,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
     setState(() {
       city = jsonDecode(prefs.getString('city').toString());
       user = jsonDecode(prefs.getString('user').toString());
-      totalAmountAll =
-          ((int.parse(city['delivery_price']) + totalAmount).toString());
+      totalAmountAll = ((int.parse(city['delivery_price']) + totalAmount).toString());
     });
     print(user['id']);
   }
@@ -140,8 +135,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
               margin: EdgeInsets.fromLTRB(15, 20, 15, 20),
               child: Text(
                 'Внимание! После оформления заказ отмене не подлежит!',
-                style: TextStyle(
-                    color: Color(0xFFEB6465), fontWeight: FontWeight.bold),
+                style: TextStyle(color: Color(0xFFEB6465), fontWeight: FontWeight.bold),
               ),
             ),
             Row(
@@ -152,8 +146,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
                 ),
                 Container(
                   margin: EdgeInsets.only(bottom: 15),
-                  child: Text(
-                      'Товары: ${globals.formatMoney(totalAmount.toString())} сум.'),
+                  child: Text('Товары: ${globals.formatMoney(totalAmount.toString())} сум.'),
                 )
                 // Icon(Icons.crop_square),
               ],
@@ -166,8 +159,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
                 ),
                 Container(
                   margin: EdgeInsets.only(bottom: 15),
-                  child: Text(
-                      'Доставка: ${globals.formatMoney(city['delivery_price'].toString())}сум.'),
+                  child: Text('Доставка: ${globals.formatMoney(city['delivery_price'].toString())}сум.'),
                 )
                 // Icon(Icons.crop_square),
               ],
@@ -192,14 +184,10 @@ class _OrderPlacementState extends State<OrderPlacement> {
                         },
                         decoration: InputDecoration(
                             enabledBorder: const OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Color(0xFFECECEC), width: 1.0),
+                              borderSide: const BorderSide(color: Color(0xFFECECEC), width: 1.0),
                             ),
                             contentPadding: EdgeInsets.all(15.0),
-                            border: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.red, width: 2),
-                                borderRadius: BorderRadius.circular(5.0)),
+                            border: OutlineInputBorder(borderSide: BorderSide(color: Colors.red, width: 2), borderRadius: BorderRadius.circular(5.0)),
                             hintText: 'Район, улица, дом, квартира, ориентир',
                             hintStyle: TextStyle(color: Colors.black),
                             fillColor: Colors.white,
@@ -222,8 +210,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5.0)),
+                              borderRadius: BorderRadius.all(Radius.circular(5.0)),
                             ),
                             margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
                             child: Text(
@@ -257,14 +244,10 @@ class _OrderPlacementState extends State<OrderPlacement> {
                         },
                         decoration: InputDecoration(
                             enabledBorder: const OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Color(0xFFECECEC), width: 1.0),
+                              borderSide: const BorderSide(color: Color(0xFFECECEC), width: 1.0),
                             ),
                             contentPadding: EdgeInsets.all(20.0),
-                            border: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.red, width: 2),
-                                borderRadius: BorderRadius.circular(5.0)),
+                            border: OutlineInputBorder(borderSide: BorderSide(color: Colors.red, width: 2), borderRadius: BorderRadius.circular(5.0)),
                             hintText: 'Контактное лицо',
                             hintStyle: TextStyle(color: Colors.black),
                             fillColor: Colors.white,
@@ -274,10 +257,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
                     Container(
                       margin: EdgeInsets.fromLTRB(20, 0, 20, 20),
                       child: TextFormField(
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(19),
-                          maskFormatter
-                        ],
+                        inputFormatters: [LengthLimitingTextInputFormatter(19), maskFormatter],
                         scrollPadding: EdgeInsets.only(bottom: 50),
                         keyboardType: TextInputType.number,
                         validator: (value) {
@@ -291,14 +271,10 @@ class _OrderPlacementState extends State<OrderPlacement> {
                         },
                         decoration: InputDecoration(
                             enabledBorder: const OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Color(0xFFECECEC), width: 1.0),
+                              borderSide: const BorderSide(color: Color(0xFFECECEC), width: 1.0),
                             ),
                             contentPadding: EdgeInsets.all(20.0),
-                            border: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.red, width: 2),
-                                borderRadius: BorderRadius.circular(5.0)),
+                            border: OutlineInputBorder(borderSide: BorderSide(color: Colors.red, width: 2), borderRadius: BorderRadius.circular(5.0)),
                             hintText: 'Номер телефона',
                             hintStyle: TextStyle(color: Colors.black),
                             fillColor: Colors.white,
@@ -311,10 +287,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
               margin: EdgeInsets.fromLTRB(20, 0, 20, 20),
               child: Text(
                 'Способ оплаты',
-                style: TextStyle(
-                    fontSize: 18,
-                    color: Color(0xFF313131),
-                    fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 18, color: Color(0xFF313131), fontWeight: FontWeight.bold),
               ),
             ),
             Row(
@@ -350,8 +323,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
                       ponyGold = false;
                     });
                   },
-                  child: Text('Наличными курьеру',
-                      style: TextStyle(fontSize: 18, color: Color(0xFF313131))),
+                  child: Text('Наличными курьеру', style: TextStyle(fontSize: 18, color: Color(0xFF313131))),
                 )
               ],
             ),
@@ -388,8 +360,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
                       ponyGold = false;
                     });
                   },
-                  child: Text('Пластиковой картой курьеру',
-                      style: TextStyle(fontSize: 18, color: Color(0xFF313131))),
+                  child: Text('Пластиковой картой курьеру', style: TextStyle(fontSize: 18, color: Color(0xFF313131))),
                 )
               ],
             ),
@@ -426,8 +397,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
                       ponyGold = false;
                     });
                   },
-                  child: Text('Payme',
-                      style: TextStyle(fontSize: 18, color: Color(0xFF313131))),
+                  child: Text('Payme', style: TextStyle(fontSize: 18, color: Color(0xFF313131))),
                 ),
               ],
             ),
@@ -445,8 +415,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
                           child: Theme(
                               data: ThemeData(
                                 primarySwatch: Colors.blue,
-                                unselectedWidgetColor:
-                                    Color(0xFFBDBDBD), // Your color
+                                unselectedWidgetColor: Color(0xFFBDBDBD), // Your color
                               ),
                               child: Checkbox(
                                 shape: RoundedRectangleBorder(
@@ -455,8 +424,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
                                 value: ponyGold,
                                 onChanged: (value) {
                                   setState(() {
-                                    if (int.parse(totalAmountAll) <=
-                                        int.parse(user['pony_golds'])) {
+                                    if (int.parse(totalAmountAll) <= int.parse(user['pony_golds'])) {
                                       ponyGold = value;
                                       cash = false;
                                       payme = false;
@@ -472,8 +440,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
                             ? Container(
                                 child: Text(
                                   'Использовать пониголды: ${globals.formatMoney(totalAmountAll.toString())} PG',
-                                  style: TextStyle(
-                                      color: Color(0xFF313131), fontSize: 16),
+                                  style: TextStyle(color: Color(0xFF313131), fontSize: 16),
                                 ),
                               )
                             : Column(
@@ -483,19 +450,12 @@ class _OrderPlacementState extends State<OrderPlacement> {
                                     // margin: EdgeInsets.only(bottom: 5, top: 5),
                                     child: Text(
                                       'Использовать пониголды: ${globals.formatMoney(totalAmountAll.toString())} PG',
-                                      style: TextStyle(
-                                          color: Color(0xFF313131),
-                                          decoration:
-                                              TextDecoration.lineThrough,
-                                          fontSize: 16),
+                                      style: TextStyle(color: Color(0xFF313131), decoration: TextDecoration.lineThrough, fontSize: 16),
                                     ),
                                   ),
                                   Container(
                                     // margin: EdgeInsets.symmetric(vertical: 5),
-                                    child: Text('Недостаточно PG',
-                                        style: TextStyle(
-                                            color: Color(0xFFEB6465),
-                                            fontSize: 16)),
+                                    child: Text('Недостаточно PG', style: TextStyle(color: Color(0xFFEB6465), fontSize: 16)),
                                   ),
                                 ],
                               )
@@ -507,8 +467,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
                           margin: EdgeInsets.only(left: 40, bottom: 10),
                           child: Text(
                             'Ваш счет: ${globals.formatMoney(user['pony_golds'].toString())} PG',
-                            style: TextStyle(
-                                color: Color(0xFF747474), fontSize: 14),
+                            style: TextStyle(color: Color(0xFF747474), fontSize: 14),
                           ),
                         ),
                         !error
@@ -517,10 +476,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
                                 child: Text(
                                   'Как получить?',
                                   style: TextStyle(
-                                      color: Color(0xFF00B4AA),
-                                      fontSize: 14,
-                                      decoration: TextDecoration.underline,
-                                      fontWeight: FontWeight.w700),
+                                      color: Color(0xFF00B4AA), fontSize: 14, decoration: TextDecoration.underline, fontWeight: FontWeight.w700),
                                 ),
                               )
                             : Container()
@@ -531,13 +487,10 @@ class _OrderPlacementState extends State<OrderPlacement> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 15, bottom: 15, top: 5),
+              margin: EdgeInsets.only(left: 15, bottom: 15, top: 15),
               child: Text(
                 'Состав заказа',
-                style: TextStyle(
-                    fontSize: 18,
-                    color: Color(0xFF313131),
-                    fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 18, color: Color(0xFF313131), fontWeight: FontWeight.bold),
               ),
             ),
             Column(
@@ -551,10 +504,7 @@ class _OrderPlacementState extends State<OrderPlacement> {
                           margin: EdgeInsets.only(left: 15, bottom: 15),
                           child: Text(
                             basket[i]['name_' + globals.lang],
-                            style: TextStyle(
-                                color: Color(0xFF313131),
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500),
+                            style: TextStyle(color: Color(0xFF313131), fontSize: 16, fontWeight: FontWeight.w500),
                           ),
                         ),
                       ),
@@ -577,10 +527,10 @@ class _OrderPlacementState extends State<OrderPlacement> {
               ],
             ),
             Container(
-              margin: EdgeInsets.only(top: 20, left: 15, bottom: 70),
+              margin: EdgeInsets.only(top: 20, left: 15, bottom: 80),
               child: Text(
                 'Итого к оплате: ${globals.formatMoney(totalAmountAll.toString())}сум',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             )
           ],

@@ -19,11 +19,9 @@ class _GameState extends State<Game> {
   bool win = false;
   bool win1 = false;
   bool win2 = false;
-  String text = 'Выберите один из двух вариантов';
+  String text = 'ВЫБЕРИТЕ КАРТОЧКУ';
+
   startGame(num) {
-    // setState(() {
-    //   clicked = false;
-    // });
     var random = (Random().nextInt(2));
     if (num == 1) {
       if (random == 0) {
@@ -67,86 +65,74 @@ class _GameState extends State<Game> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(backgroundColor: globals.blue,),
-        body: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              margin: EdgeInsets.only(top: 100, bottom: 15),
-              child: Text(
-                'Уровень $level',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        appBar: AppBar(
+          backgroundColor: globals.blue,
+        ),
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("images/game/bg.jpg"),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 100, bottom: 15),
+                child: Text(
+                  'Уровень $level',
+                  style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
+                ),
               ),
-            ),
-            Container(
-              margin: EdgeInsets.only(bottom: 20),
-              child: Text(
-                text,
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Color(0xFF313131),
-                    fontWeight: FontWeight.w500),
+              Container(
+                margin: EdgeInsets.only(bottom: 20),
+                child: Text(
+                  text,
+                  style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
+                ),
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                    child: FlipCard(
-                  key: cardKey,
-                  flipOnTouch: false,
-                  front: GestureDetector(
-                    onTap: () => startGame(1),
-                    child: Container(
-                      margin: EdgeInsets.only(right: 30),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xFFECECEC))),
-                      height: 100,
-                      width: 130,
-                      child: Text('Front'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                      child: FlipCard(
+                    key: cardKey,
+                    flipOnTouch: false,
+                    front: GestureDetector(
+                        onTap: () => startGame(1),
+                        child: Image.asset(
+                          'images/game/card-front.png',
+                          width: MediaQuery.of(context).size.width * 0.3,
+                        )),
+                    back: Image.asset(
+                      'images/game/card-front.png',
+                      width: MediaQuery.of(context).size.width * 0.3,
                     ),
-                  ),
-                  back: Container(
-                    margin: EdgeInsets.only(right: 30),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Color(0xFFECECEC))),
-                    height: 100,
-                    width: 130,
-                    child: Text('Back'),
-                  ),
-                )),
-                Center(
-                    child: FlipCard(
-                  key: cardKey2,
-                  flipOnTouch: false,
-                  front: GestureDetector(
-                    onTap: () => startGame(2),
-                    child: Container(
-                      margin: EdgeInsets.only(right: 30),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xFFECECEC))),
-                      height: 100,
-                      width: 130,
-                      child: Text('Front'),
-                    ),
-                  ),
-                  back: Container(
-                    margin: EdgeInsets.only(right: 30),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Color(0xFFECECEC))),
-                    height: 100,
-                    width: 130,
-                    child: Text('Back'),
-                  ),
-                )),
-              ],
-            ),
-            Padding(padding: EdgeInsets.only(top: 20)),
-            // Доделать
-            // Container(
-            //   child: Text('data'),
-            // )
-          ],
+                  )),
+                  Center(
+                      child: FlipCard(
+                          key: cardKey2,
+                          flipOnTouch: false,
+                          front: GestureDetector(
+                              onTap: () => startGame(2),
+                              child: Image.asset(
+                                'images/game/card-front.png',
+                                width: MediaQuery.of(context).size.width * 0.3,
+                              )),
+                          back: Image.asset(
+                            'images/game/card-front.png',
+                            width: MediaQuery.of(context).size.width * 0.3,
+                          ))),
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(top: 20)),
+              // Доделать
+              // Container(
+              //   child: Text('data'),
+              // )
+            ],
+          ),
         ),
         floatingActionButton: Column(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -158,8 +144,7 @@ class _GameState extends State<Game> {
               height: 48,
               width: double.infinity,
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    primary: win ? globals.blue : Color(0xFF747474)),
+                style: ElevatedButton.styleFrom(primary: win ? globals.blue : Color(0xFF747474)),
                 onPressed: () {
                   if (win) {
                     if (card == 1) {
@@ -169,7 +154,7 @@ class _GameState extends State<Game> {
                       cardKey2.currentState!.toggleCard();
                     }
                     setState(() {
-                      text = 'Выберите один из двух вариантов';
+                      text = ' ВЫБЕРИТЕ КАРТОЧКУ';
                     });
                   }
                 },
@@ -180,8 +165,7 @@ class _GameState extends State<Game> {
                       margin: EdgeInsets.only(right: 8),
                       child: Text(
                         'Продолжить',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.white),
+                        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
                       ),
                     ),
                   ],
@@ -193,7 +177,7 @@ class _GameState extends State<Game> {
               height: 48,
               width: double.infinity,
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(primary: Color(0xFFEB5757)),
+                style: ElevatedButton.styleFrom(primary: Color(0xFF594c88)),
                 onPressed: () {
                   // Get.back();
                 },
@@ -204,9 +188,7 @@ class _GameState extends State<Game> {
                       margin: EdgeInsets.only(right: 8),
                       child: Text(
                         'Выйти',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: win ? Colors.white : Colors.black),
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: win ? Colors.white : Colors.black),
                       ),
                     ),
                   ],
@@ -216,4 +198,17 @@ class _GameState extends State<Game> {
           ],
         ));
   }
+
+  dynamic cards = [
+    {'id': 1, 'passed': false, 'card1': false, 'card2': false, 'pony_golds': 3000, 'totalPonyGolds': 3000, 'level': 1, 'show': true},
+    {'id': 2, 'passed': false, 'card1': false, 'card2': false, 'pony_golds': 2000, 'totalPonyGolds': 5000, 'level': 2, 'show': false},
+    {'id': 3, 'passed': false, 'card1': false, 'card2': false, 'pony_golds': 5000, 'totalPonyGolds': 10000, 'level': 3, 'show': false},
+    {'id': 4, 'passed': false, 'card1': false, 'card2': false, 'pony_golds': 10000, 'totalPonyGolds': 20000, 'level': 4, 'show': false},
+    {'id': 5, 'passed': false, 'card1': false, 'card2': false, 'pony_golds': 30000, 'totalPonyGolds': 50000, 'level': 5, 'show': false},
+    {'id': 6, 'passed': false, 'card1': false, 'card2': false, 'pony_golds': 50000, 'totalPonyGolds': 100000, 'level': 6, 'show': false},
+    {'id': 7, 'passed': false, 'card1': false, 'card2': false, 'pony_golds': 100000, 'totalPonyGolds': 200000, 'level': 7, 'show': false},
+    {'id': 8, 'passed': false, 'card1': false, 'card2': false, 'pony_golds': 300000, 'totalPonyGolds': 500000, 'level': 8, 'show': false},
+    {'id': 9, 'passed': false, 'card1': false, 'card2': false, 'totalPonyGolds': 1000000, 'level': 9, 'show': false},
+    {'id': 10, 'passed': false, 'card1': false, 'card2': false, 'card3': false, 'totalPonyGolds': 3000000, 'level': 10, 'show': false},
+  ];
 }
